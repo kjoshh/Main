@@ -1,4 +1,3 @@
-// hover-effects.js
 document.addEventListener("DOMContentLoaded", function () {
   // Hover stuff
   let hoverEffectActive = false;
@@ -8,6 +7,18 @@ document.addEventListener("DOMContentLoaded", function () {
   let isFirstHover = true;
   if (typeof window.terminalActive === "undefined") {
     window.terminalActive = false;
+  }
+
+  // **Add the debounce function here, before initializeHoverScript**
+  function debounce(func, wait) {
+    let timeout;
+    return function (...args) {
+      const context = this;
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        func.apply(context, args);
+      }, wait);
+    };
   }
 
   function initializeHoverScript() {
@@ -40,7 +51,10 @@ document.addEventListener("DOMContentLoaded", function () {
         processQueue();
       }
     };
-    document.addEventListener("mousemove", hoverEventHandler);
+
+    // **Replace the original event listener with the debounced version**
+    const debouncedHoverEventHandler = debounce(hoverEventHandler, 50); // Adjust the delay as needed
+    document.addEventListener("mousemove", debouncedHoverEventHandler);
 
     function processQueue() {
       if (!hoverEffectActive || isHovering || hoveredLinksQueue.length === 0)
@@ -59,7 +73,8 @@ document.addEventListener("DOMContentLoaded", function () {
   // Function to stop the hover script
   function stopHoverScript() {
     if (hoverEventHandler) {
-      document.removeEventListener("mousemove", hoverEventHandler); // Remove event listener
+      //document.removeEventListener("mousemove", hoverEventHandler); // Remove event listener
+      document.removeEventListener("mousemove", debouncedHoverEventHandler); // Remove debounced event listener
       hoverEventHandler = null; // Clear the handler reference
     }
   }
