@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     // **Replace the original event listener with the debounced version**
-    const throttledHoverEventHandler = throttle(hoverEventHandler, 50); // Adjust the limit as needed
+    const throttledHoverEventHandler = throttle(hoverEventHandler, 100); // Adjust the limit as needed
     document.addEventListener("mousemove", throttledHoverEventHandler);
 
     function processQueue() {
