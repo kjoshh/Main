@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     // **Replace the original event listener with the debounced version**
-    const debouncedHoverEventHandler = debounce(hoverEventHandler, 100); // Adjust the delay as needed
+    const debouncedHoverEventHandler = debounce(hoverEventHandler, 50); // Adjust the delay as needed
     document.addEventListener("mousemove", debouncedHoverEventHandler);
 
     function processQueue() {
