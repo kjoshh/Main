@@ -9,15 +9,15 @@ document.addEventListener("DOMContentLoaded", function () {
     window.terminalActive = false;
   }
 
-  // **Add the debounce function here, before initializeHoverScript**
-  function debounce(func, wait) {
-    let timeout;
+  function throttle(func, limit) {
+    let inThrottle;
     return function (...args) {
       const context = this;
-      clearTimeout(timeout);
-      timeout = setTimeout(() => {
+      if (!inThrottle) {
         func.apply(context, args);
-      }, wait);
+        inThrottle = true;
+        setTimeout(() => (inThrottle = false), limit);
+      }
     };
   }
 
@@ -53,8 +53,8 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     // **Replace the original event listener with the debounced version**
-    const debouncedHoverEventHandler = debounce(hoverEventHandler, 5); // Adjust the delay as needed
-    document.addEventListener("mousemove", debouncedHoverEventHandler);
+    const throttledHoverEventHandler = throttle(hoverEventHandler, 50); // Adjust the limit as needed
+    document.addEventListener("mousemove", throttledHoverEventHandler);
 
     function processQueue() {
       if (!hoverEffectActive || isHovering || hoveredLinksQueue.length === 0)
