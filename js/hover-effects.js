@@ -52,8 +52,8 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     };
 
-    // **Replace the original event listener with the debounced version**
-    const throttledHoverEventHandler = throttle(hoverEventHandler, 75); // Adjust the limit as needed
+    // **Replace the original event listener with the throttled version**
+    const throttledHoverEventHandler = throttle(hoverEventHandler, 50); // Adjust the limit as needed
     document.addEventListener("mousemove", throttledHoverEventHandler);
 
     function processQueue() {
@@ -73,8 +73,10 @@ document.addEventListener("DOMContentLoaded", function () {
   // Function to stop the hover script
   function stopHoverScript() {
     if (hoverEventHandler) {
-      //document.removeEventListener("mousemove", hoverEventHandler); // Remove event listener
-      document.removeEventListener("mousemove", debouncedHoverEventHandler); // Remove debounced event listener
+      document.removeEventListener(
+        "mousemove",
+        throttledHoverEventHandler // Use throttledHoverEventHandler here
+      );
       hoverEventHandler = null; // Clear the handler reference
     }
   }
