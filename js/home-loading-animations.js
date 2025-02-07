@@ -1,5 +1,30 @@
 // loading-animations.js
 document.addEventListener("DOMContentLoaded", function () {
+  // Animated Path Code (Run Immediately)
+  const path = document.getElementById("animatedPath");
+
+  if (path) {
+    // Gesamtlänge des Pfades berechnen
+    const length = path.getTotalLength();
+
+    // Setzen der Anfangswerte für stroke-dasharray und stroke-dashoffset
+    path.style.strokeDasharray = length;
+    path.style.strokeDashoffset = length;
+    path.style.opacity = "1";
+    // Optional: Force a layout to apply the initial styles
+    path.getBoundingClientRect();
+
+    // GSAP-Animation: strokeDashoffset von der Länge des Pfades auf 0 animieren
+    gsap.to(path, {
+      strokeDashoffset: 0,
+      duration: 1.5, // Dauer in Sekunden
+      ease: "linear", // Lineare Animation für konstante Geschwindigkeit
+      repeat: 0,
+      delay: 0.55, // Keine Wiederholung
+      yoyo: false, // Kein Yoyo-Effekt (Rückwärtsanimation)
+    });
+  }
+
   function animateInternalNavigation() {
     const loaderText = document.querySelectorAll(".linkwrap");
     const loaderImg = document.querySelectorAll(".imgbghome");
@@ -230,29 +255,4 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   mainExecution();
-
-  // Animated Path Code
-  const path = document.getElementById("animatedPath");
-
-  if (path) {
-    // Gesamtlänge des Pfades berechnen
-    const length = path.getTotalLength();
-
-    // Setzen der Anfangswerte für stroke-dasharray und stroke-dashoffset
-    path.style.strokeDasharray = length;
-    path.style.strokeDashoffset = length;
-    path.style.opacity = "1";
-    // Optional: Force a layout to apply the initial styles
-    path.getBoundingClientRect();
-
-    // GSAP-Animation: strokeDashoffset von der Länge des Pfades auf 0 animieren
-    gsap.to(path, {
-      strokeDashoffset: 0,
-      duration: 1.5, // Dauer in Sekunden
-      ease: "linear", // Lineare Animation für konstante Geschwindigkeit
-      repeat: 0,
-      delay: 0.55, // Keine Wiederholung
-      yoyo: false, // Kein Yoyo-Effekt (Rückwärtsanimation)
-    });
-  }
 });
