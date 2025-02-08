@@ -1,3 +1,4 @@
+//home-loading-animations.js
 document.addEventListener("DOMContentLoaded", function () {
   // Animated Path Code (Run Immediately)
   const path = document.getElementById("animatedPath");

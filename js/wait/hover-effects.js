@@ -1,6 +1,4 @@
 // hover-effects.js
-import { isInternalNavigation } from "./navigation.js"; // Import the isInternalNavigation function
-
 document.addEventListener("DOMContentLoaded", function () {
   // Hover stuff
   let hoverEffectActive = false;
@@ -153,7 +151,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Initialize hover effects based on navigation type
   function initializeHover() {
-    const internal = isInternalNavigation();
+    const internal = isInternalNavigation(); // Use the shared function
     if (internal) {
       internalActivateHoverEffectAfterDelay();
     } else {

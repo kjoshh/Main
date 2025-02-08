@@ -1,3 +1,4 @@
+// random.js
 document.addEventListener("DOMContentLoaded", () => {
   // Initialize global terminalActive variable
   if (typeof window.terminalActive === "undefined") {

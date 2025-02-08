@@ -1,5 +1,5 @@
 // navigation.js
-export function isInternalNavigation() {
+function isInternalNavigation() {
   if (sessionStorage.getItem("isInternalNavigation") === "true") {
     sessionStorage.removeItem("isInternalNavigation");
     return true;
