@@ -1,25 +1,5 @@
 //home-loading-animations.js
 document.addEventListener("DOMContentLoaded", function () {
-  // Animated Path Code (Run Immediately)
-  const path = document.getElementById("animatedPath");
-
-  if (path) {
-    const length = path.getTotalLength();
-    path.style.strokeDasharray = length;
-    path.style.strokeDashoffset = length;
-    path.style.opacity = "1";
-    path.getBoundingClientRect();
-
-    gsap.to(path, {
-      strokeDashoffset: 0,
-      duration: 1.5,
-      ease: "linear",
-      repeat: 0,
-      delay: 0.55,
-      yoyo: false,
-    });
-  }
-
   // Cache frequently used elements
   const loaderText = document.querySelectorAll(".linkwrap");
   const loaderImg = document.querySelectorAll(".imgbghome");
@@ -32,6 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const pathsvg = document.getElementById("path-svg");
   const noisi = document.getElementById("grainiwrapppp");
   const beforeAllEmbed = document.querySelector(".before-all");
+  const path = document.getElementById("animatedPath");
 
   // Reusable function for common animations
   function animateCommonElements() {
@@ -120,6 +101,25 @@ document.addEventListener("DOMContentLoaded", function () {
     textBlock.style.opacity = "1";
 
     animateCommonElements();
+
+    // Animated Path Code (Run Immediately)
+
+    if (path) {
+      const length = path.getTotalLength();
+      path.style.strokeDasharray = length;
+      path.style.strokeDashoffset = length;
+      path.style.opacity = "1";
+      path.getBoundingClientRect();
+
+      gsap.to(path, {
+        strokeDashoffset: 0,
+        duration: 1.5,
+        ease: "linear",
+        repeat: 0,
+        delay: 0.55,
+        yoyo: false,
+      });
+    }
 
     gsap.set(noisi, { opacity: 0, willChange: "opacity" });
     gsap.set(numberElement, {
