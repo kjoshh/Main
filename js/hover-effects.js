@@ -1,4 +1,4 @@
-// hover-effects.js
+// neww hover-effects.js
 document.addEventListener("DOMContentLoaded", function () {
   // Hover stuff
   let hoverEffectActive = false;
@@ -111,9 +111,11 @@ document.addEventListener("DOMContentLoaded", function () {
     } else if (
       !window.terminalActive &&
       !hoverEffectActive &&
-      delayCompleted &&
       !userHoverDisabled
     ) {
+      // Reset delayCompleted before calling initializeHover
+      delayCompleted = false;
+
       // Initialize hover effects based on navigation type
       function initializeHover() {
         const internal = isInternalNavigation(); // Use the shared function
