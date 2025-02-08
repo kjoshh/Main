@@ -1,4 +1,4 @@
-// v5 hover-effects.js
+// v7 hover-effects.js
 document.addEventListener("DOMContentLoaded", function () {
   // Hover stuff
   let hoverEffectActive = false;
@@ -81,27 +81,23 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Initialize hover effects after a fixed delay
+  // Initialize hover effects after a delay
   setTimeout(function () {
     if (!window.terminalActive && !userHoverDisabled) {
+      // Check for internal navigation *inside* the timeout
+      const internal = isInternalNavigation();
+      let delay = internal ? 1250 : 4225; // Set the delay based on isInternalNavigation()
+
+      if (internal) {
+        console.log("Initializing hover effects with internal delay (1250ms)");
+      } else {
+        console.log("Initializing hover effects with external delay (4225ms)");
+      }
+
       hoverEffectActive = true;
       initializeHoverScript();
     }
-  }, 1250); // Wait 1.25 seconds after DOMContentLoaded
-
-  // // Event listener for vidopen to disable hover effect
-  // const vidOpenElement = document.querySelector("#vidopen");
-  // if (vidOpenElement) {
-  //   vidOpenElement.addEventListener("click", () => {
-  //     if (hoverEffectActive || !userHoverDisabled) {
-  //       hoverEffectActive = false;
-  //       userHoverDisabled = true; // Set user disabled flag
-  //       stopHoverScript();
-  //     }
-  //   });
-  // } else {
-  //   console.warn("Element with ID 'vidopen' not found.");
-  // }
+  }, 1250); // Initial delay of 1.25 seconds
 
   const links = document.querySelectorAll("a");
   links.forEach(function (link) {
