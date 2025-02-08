@@ -1,0 +1,50 @@
+/* Styles for the overlay */
+#browser-check-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #e4e1d9; /* Semi-transparent black */
+  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100010001000100010001000; /* Ensure it's on top */
+  font-family: Neueeigene;
+  letter-spacing: -1.5px;
+  -webkit-text-stroke-width: 0.5px;
+  font-size: 22px;
+}
+#browser-check-overlay p {
+  font-size: 22px;
+}
+#browser-check-overlay.hidden {
+  display: none;
+}
+#browser-check-content {
+  text-align: center;
+  padding: 20px;
+  position: absolute;
+  top: 30vh;
+  display: flex;
+  flex-direction: column;
+  width: 700px;
+}
+
+#browser-check-explanation {
+  display: none;
+  margin-top: 10px;
+  padding: 10px;
+}
+
+#browser-check-explanation.show {
+  display: block;
+}
+
+#browser-check-why-link {
+  color: #333;
+  text-decoration: none;
+  cursor: pointer;
+  margin-top: 10px;
+}
