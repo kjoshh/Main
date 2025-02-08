@@ -1,8 +1,9 @@
-// v9 hover-effects.js
+// v10 hover-effects.js
 document.addEventListener("DOMContentLoaded", function () {
   // Hover stuff
   let hoverEffectActive = false;
   let hoverEventHandler;
+  let throttledHoverEventHandler; // Declare throttledHoverEventHandler here
   let userHoverDisabled = false;
 
   if (typeof window.terminalActive === "undefined") {
@@ -53,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     // **Replace the original event listener with the throttled version**
-    const throttledHoverEventHandler = throttle(hoverEventHandler, 50); // Adjust the limit as needed
+    throttledHoverEventHandler = throttle(hoverEventHandler, 50); // Adjust the limit as needed
     document.addEventListener("mousemove", throttledHoverEventHandler);
 
     function processQueue() {
@@ -72,12 +73,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Function to stop the hover script
   function stopHoverScript() {
-    if (hoverEventHandler) {
+    if (hoverEventHandler && throttledHoverEventHandler) {
       document.removeEventListener(
         "mousemove",
         throttledHoverEventHandler // Use throttledHoverEventHandler here
       );
       hoverEventHandler = null; // Clear the handler reference
+      throttledHoverEventHandler = null; // Clear the throttled handler reference
     }
   }
 
@@ -93,12 +95,10 @@ document.addEventListener("DOMContentLoaded", function () {
   links.forEach(function (link) {
     link.addEventListener("click", function (event) {
       const href = this.getAttribute("href");
-      if (hoverEventHandler) {
-        document.removeEventListener(
-          "mousemove",
-          throttledHoverEventHandler // Use throttledHoverEventHandler here
-        );
-        hoverEventHandler = null; // Clear the handler reference
+      if (hoverEffectActive || !userHoverDisabled) {
+        hoverEffectActive = false;
+        userHoverDisabled = true;
+        stopHoverScript();
       }
     });
   });
@@ -106,4 +106,4 @@ document.addEventListener("DOMContentLoaded", function () {
   window.addEventListener("beforeunload", () => {
     clearInterval(monitorTerminalState);
   });
-}); // <-- This was the missing closing curly brace
+});
