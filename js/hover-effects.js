@@ -1,4 +1,4 @@
-// v3 hover-effects.js
+// v5 hover-effects.js
 document.addEventListener("DOMContentLoaded", function () {
   // Hover stuff
   let hoverEffectActive = false;
@@ -103,17 +103,17 @@ document.addEventListener("DOMContentLoaded", function () {
   //   console.warn("Element with ID 'vidopen' not found.");
   // }
 
-  // const links = document.querySelectorAll("a");
-  // links.forEach(function (link) {
-  //   link.addEventListener("click", function (event) {
-  //     const href = this.getAttribute("href");
-  //     if (hoverEffectActive || !userHoverDisabled) {
-  //       hoverEffectActive = false;
-  //       userHoverDisabled = true;
-  //       stopHoverScript();
-  //     }
-  //   });
-  // });
+  const links = document.querySelectorAll("a");
+  links.forEach(function (link) {
+    link.addEventListener("click", function (event) {
+      const href = this.getAttribute("href");
+      if (hoverEffectActive || !userHoverDisabled) {
+        hoverEffectActive = false;
+        userHoverDisabled = true;
+        stopHoverScript();
+      }
+    });
+  });
 
   window.addEventListener("beforeunload", () => {
     clearInterval(monitorTerminalState);
