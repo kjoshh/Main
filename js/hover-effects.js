@@ -93,10 +93,12 @@ document.addEventListener("DOMContentLoaded", function () {
   links.forEach(function (link) {
     link.addEventListener("click", function (event) {
       const href = this.getAttribute("href");
-      if (hoverEffectActive || !userHoverDisabled) {
-        hoverEffectActive = false;
-        userHoverDisabled = true;
-        stopHoverScript();
+      if (hoverEventHandler) {
+        document.removeEventListener(
+          "mousemove",
+          throttledHoverEventHandler // Use throttledHoverEventHandler here
+        );
+        hoverEventHandler = null; // Clear the handler reference
       }
     });
   });
