@@ -1,4 +1,4 @@
-// v7 hover-effects.js
+// hover-effects.js
 document.addEventListener("DOMContentLoaded", function () {
   // Hover stuff
   let hoverEffectActive = false;
@@ -81,23 +81,13 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Initialize hover effects after a delay
-  setTimeout(function () {
+  // Listen for a custom event to trigger hover initialization
+  document.addEventListener("hoverEffectsReady", function () {
     if (!window.terminalActive && !userHoverDisabled) {
-      // Check for internal navigation *inside* the timeout
-      const internal = isInternalNavigation();
-      let delay = internal ? 1250 : 4225; // Set the delay based on isInternalNavigation()
-
-      if (internal) {
-        console.log("Initializing hover effects with internal delay (1250ms)");
-      } else {
-        console.log("Initializing hover effects with external delay (4225ms)");
-      }
-
       hoverEffectActive = true;
       initializeHoverScript();
     }
-  }, 1250); // Initial delay of 1.25 seconds
+  });
 
   const links = document.querySelectorAll("a");
   links.forEach(function (link) {
@@ -114,4 +104,4 @@ document.addEventListener("DOMContentLoaded", function () {
   window.addEventListener("beforeunload", () => {
     clearInterval(monitorTerminalState);
   });
-});
+}); // <-- This was the missing closing curly brace

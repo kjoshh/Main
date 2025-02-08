@@ -1,4 +1,4 @@
-//home-loading-animations.js
+// home-loading-animations.js
 document.addEventListener("DOMContentLoaded", function () {
   // Cache frequently used elements
   const loaderText = document.querySelectorAll(".linkwrap");
@@ -56,6 +56,7 @@ document.addEventListener("DOMContentLoaded", function () {
       duration: 1,
       ease: "power4.inOut",
       willChange: "width, height",
+      onComplete: dispatchHoverEvent, // Call dispatchHoverEvent after animation
     });
 
     setTimeout(() => {
@@ -181,6 +182,7 @@ document.addEventListener("DOMContentLoaded", function () {
         delay: 2.55,
         ease: "power3.inOut",
         willChange: "width, height",
+        onComplete: dispatchHoverEvent, // Call dispatchHoverEvent after animation
       });
       gsap.to(numberElement, {
         top: "calc(0% - 20px)",
@@ -239,6 +241,11 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
       animateExternalNavigation();
     }
+  }
+
+  // Function to dispatch the custom event
+  function dispatchHoverEvent() {
+    document.dispatchEvent(new CustomEvent("hoverEffectsReady"));
   }
 
   mainExecution();
