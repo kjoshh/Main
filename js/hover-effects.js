@@ -1,4 +1,4 @@
-// v1 hover-effects.js
+// v2 hover-effects.js
 document.addEventListener("DOMContentLoaded", function () {
   // Hover stuff
   let hoverEffectActive = false;
@@ -82,10 +82,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Function to initialize hover effects based on navigation type
-  function initializeHover() {
-    const internal = isInternalNavigation(); // Use the shared function
-    let delay = internal ? 1150 : 4225; // Determine the delay based on navigation type
-
+  function initializeHover(delay) {
     setTimeout(() => {
       if (!window.terminalActive && !userHoverDisabled) {
         hoverEffectActive = true;
@@ -94,8 +91,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }, delay);
   }
 
-  // Call initializeHover after DOMContentLoaded
-  initializeHover();
+  // Determine the delay based on navigation type and call initializeHover
+  const internal = isInternalNavigation();
+  let delay = internal ? 1150 : 4225;
+  initializeHover(delay);
 
   // Event listener for vidopen to disable hover effect
   const vidOpenElement = document.querySelector("#vidopen");
