@@ -1,11 +1,10 @@
-// neww hover-effects.js
+// v1 hover-effects.js
 document.addEventListener("DOMContentLoaded", function () {
   // Hover stuff
   let hoverEffectActive = false;
   let hoverEventHandler;
-  let delayCompleted = false;
   let userHoverDisabled = false;
-  let isFirstHover = true;
+
   if (typeof window.terminalActive === "undefined") {
     window.terminalActive = false;
   }
@@ -82,53 +81,21 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Function to activate hover effect after delay (External Navigation)
-  function externalActivateHoverEffectAfterDelay() {
+  // Function to initialize hover effects based on navigation type
+  function initializeHover() {
+    const internal = isInternalNavigation(); // Use the shared function
+    let delay = internal ? 1150 : 4225; // Determine the delay based on navigation type
+
     setTimeout(() => {
-      delayCompleted = true;
       if (!window.terminalActive && !userHoverDisabled) {
         hoverEffectActive = true;
         initializeHoverScript();
       }
-    }, 4225);
+    }, delay);
   }
 
-  // Function to activate hover effect after delay (Internal Navigation)
-  function internalActivateHoverEffectAfterDelay() {
-    setTimeout(() => {
-      delayCompleted = true;
-      if (!window.terminalActive && !userHoverDisabled) {
-        hoverEffectActive = true;
-        initializeHoverScript();
-      }
-    }, 1150);
-  }
-
-  const monitorTerminalState = setInterval(() => {
-    if (window.terminalActive && hoverEffectActive) {
-      hoverEffectActive = false;
-      stopHoverScript();
-    } else if (
-      !window.terminalActive &&
-      !hoverEffectActive &&
-      !userHoverDisabled
-    ) {
-      // Reset delayCompleted before calling initializeHover
-      delayCompleted = false;
-
-      // Initialize hover effects based on navigation type
-      function initializeHover() {
-        const internal = isInternalNavigation(); // Use the shared function
-        if (internal) {
-          internalActivateHoverEffectAfterDelay();
-        } else {
-          externalActivateHoverEffectAfterDelay();
-        }
-      }
-
-      initializeHover(); // Call the initialization function
-    }
-  }, 500);
+  // Call initializeHover after DOMContentLoaded
+  initializeHover();
 
   // Event listener for vidopen to disable hover effect
   const vidOpenElement = document.querySelector("#vidopen");
