@@ -114,8 +114,17 @@ document.addEventListener("DOMContentLoaded", function () {
       delayCompleted &&
       !userHoverDisabled
     ) {
-      hoverEffectActive = true;
-      initializeHoverScript();
+      // Initialize hover effects based on navigation type
+      function initializeHover() {
+        const internal = isInternalNavigation(); // Use the shared function
+        if (internal) {
+          internalActivateHoverEffectAfterDelay();
+        } else {
+          externalActivateHoverEffectAfterDelay();
+        }
+      }
+
+      initializeHover(); // Call the initialization function
     }
   }, 500);
 
@@ -148,16 +157,4 @@ document.addEventListener("DOMContentLoaded", function () {
   window.addEventListener("beforeunload", () => {
     clearInterval(monitorTerminalState);
   });
-
-  // Initialize hover effects based on navigation type
-  function initializeHover() {
-    const internal = isInternalNavigation(); // Use the shared function
-    if (internal) {
-      internalActivateHoverEffectAfterDelay();
-    } else {
-      externalActivateHoverEffectAfterDelay();
-    }
-  }
-
-  initializeHover(); // Call the initialization function
 });
