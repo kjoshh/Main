@@ -89,31 +89,31 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }, 1250); // Wait 1.25 seconds after DOMContentLoaded
 
-  // Event listener for vidopen to disable hover effect
-  const vidOpenElement = document.querySelector("#vidopen");
-  if (vidOpenElement) {
-    vidOpenElement.addEventListener("click", () => {
-      if (hoverEffectActive || !userHoverDisabled) {
-        hoverEffectActive = false;
-        userHoverDisabled = true; // Set user disabled flag
-        stopHoverScript();
-      }
-    });
-  } else {
-    console.warn("Element with ID 'vidopen' not found.");
-  }
+  // // Event listener for vidopen to disable hover effect
+  // const vidOpenElement = document.querySelector("#vidopen");
+  // if (vidOpenElement) {
+  //   vidOpenElement.addEventListener("click", () => {
+  //     if (hoverEffectActive || !userHoverDisabled) {
+  //       hoverEffectActive = false;
+  //       userHoverDisabled = true; // Set user disabled flag
+  //       stopHoverScript();
+  //     }
+  //   });
+  // } else {
+  //   console.warn("Element with ID 'vidopen' not found.");
+  // }
 
-  const links = document.querySelectorAll("a");
-  links.forEach(function (link) {
-    link.addEventListener("click", function (event) {
-      const href = this.getAttribute("href");
-      if (hoverEffectActive || !userHoverDisabled) {
-        hoverEffectActive = false;
-        userHoverDisabled = true;
-        stopHoverScript();
-      }
-    });
-  });
+  // const links = document.querySelectorAll("a");
+  // links.forEach(function (link) {
+  //   link.addEventListener("click", function (event) {
+  //     const href = this.getAttribute("href");
+  //     if (hoverEffectActive || !userHoverDisabled) {
+  //       hoverEffectActive = false;
+  //       userHoverDisabled = true;
+  //       stopHoverScript();
+  //     }
+  //   });
+  // });
 
   window.addEventListener("beforeunload", () => {
     clearInterval(monitorTerminalState);
