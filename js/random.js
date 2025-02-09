@@ -1,4 +1,4 @@
-// js/random.js
+// v2 js/random.js
 
 // Initialize global terminalActive variable
 if (typeof window.terminalActive === "undefined") {
@@ -541,9 +541,10 @@ function flickerNoise() {
 function stopTerminal() {
   const promptText = "visitor@kernjosh.com:~$ ";
   const systemResponse = "ERROR: System resources corrupted."; // More realistic response
+  activateButton.style.display = "none";
 
   setTimeout(() => {
-    errortext.style.display = "none";
+    errortext.style.display = "block";
 
     flickerNoise();
     startGlitchEffect();
