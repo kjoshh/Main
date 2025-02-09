@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
   } else if (isDesktopSafari()) {
     console.log("issafariiiiii");
     message.textContent =
-      "oh no, you are using <safari> :( you need a different browser like chrome in order to enter this page.";
+      "oh no, you are using safari :( you need a different browser like chrome in order to enter this page.";
     overlay.classList.remove("hidden");
     whyLink.classList.remove("hidden");
   } else {
