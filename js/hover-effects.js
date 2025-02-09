@@ -23,8 +23,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // Reset GSAP properties
     gsap.set(texts, { opacity: 1, y: 0 });
     gsap.set(interfi2, { y: 0, opacity: 1, height: "auto" });
-    gsap.set(menuovvv, { height: "auto" });
-    gsap.set(xwrap, { height: "auto", top: "auto", bottom: "0" });
+    gsap.set(menuovvv, { height: "22.5px" });
+    gsap.set(xwrap, { height: "100vh", top: "auto", bottom: "0" });
   }
 
   // Detect back button navigation

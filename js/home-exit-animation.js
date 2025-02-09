@@ -1,4 +1,4 @@
-// v3 home-exit-animation.js
+// v14home-exit-animation.js
 document.addEventListener("DOMContentLoaded", function () {
   // Select all <a> elements with class "link"
   const realLinks = document.querySelectorAll(".link");
