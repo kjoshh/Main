@@ -1,6 +1,4 @@
-// v20 hover-effects.js
-let monitorTerminalState; // Declare monitorTerminalState in the global scope
-
+// v21 hover-effects.js
 document.addEventListener("DOMContentLoaded", function () {
   // Hover stuff
   let hoverEffectActive = false;
@@ -123,7 +121,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  monitorTerminalState = setInterval(() => {
+  window.monitorTerminalState = setInterval(() => {
     // Assign to the global variable
     if (window.terminalActive && hoverEffectActive) {
       hoverEffectActive = false;
@@ -135,9 +133,9 @@ document.addEventListener("DOMContentLoaded", function () {
   }, 500);
 
   window.addEventListener("beforeunload", () => {
-    if (monitorTerminalState) {
-      // Check if monitorTerminalState is defined
-      clearInterval(monitorTerminalState);
+    if (window.monitorTerminalState) {
+      // Check if window.monitorTerminalState is defined
+      clearInterval(window.monitorTerminalState);
     }
   });
 });
