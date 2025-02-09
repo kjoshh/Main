@@ -1,4 +1,4 @@
-// v2 js/random.js
+// v5 js/random.js
 
 // Initialize global terminalActive variable
 if (typeof window.terminalActive === "undefined") {
@@ -225,7 +225,7 @@ function initializeTerminalScript() {
 
   appendOutputWithTyping(banner, () => {
     const initialMessage =
-      "\nLast login: 10th Jan 2025\n\n**********************************************************\n*****  Type 'help' for a list of available commands  *****\n*****  Type 'exit' to return to the previous screen  *****\n**********************************************************\n\n";
+      "\nLast login: 9th Feb 2025\n\n**********************************************************\n*****  Type 'help' for a list of available commands  *****\n*****  Type 'exit' to return to the previous screen  *****\n**********************************************************\n\n";
     appendOutputWithTyping(initialMessage, () => {
       inputField.focus(); // Focus the input field
       updateCursorPosition();
@@ -361,7 +361,7 @@ function startGlitchEffect() {
       const topimgs = document.querySelectorAll(".imgbghome.archive");
       // opacityTimeline.kill(); // Stop the opacity glitch animation
       opacitititi.kill();
-      window.terminalActive = false; // Deactivate the terminal globally
+      // window.terminalActive = false; // Deactivate the terminal globally
 
       setTimeout(() => {
         gsap.set([glitchLayers, glitchImages], { opacity: 0 });
