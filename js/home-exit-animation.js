@@ -1,4 +1,4 @@
-// v19home-exit-animation.js
+// v20home-exit-animation.js
 document.addEventListener("DOMContentLoaded", function () {
   // Select all <a> elements with class "link"
   const realLinks = document.querySelectorAll(".link");
@@ -31,14 +31,20 @@ document.addEventListener("DOMContentLoaded", function () {
   document.addEventListener("visibilitychange", function () {
     if (document.visibilityState === "visible") {
       console.log("Page is now visible (back button navigation?)");
+      // Dynamically inject the hover-effects.js script
+      const hoverScript = document.createElement("script");
+      hoverScript.src =
+        "https://kjoshh.github.io/Main/js/hover-effects.js?=v26"; // Use your actual URL
+      hoverScript.onload = function () {
+        console.log("hover-effects.js loaded, initializing hover effects");
+        initializeHoverEffects(); // Call initializeHoverEffects after script is loaded
+      };
+      hoverScript.onerror = function () {
+        console.error("Failed to load hover-effects.js");
+      };
+      document.body.appendChild(hoverScript);
+
       resetAnimation(); // Reset the animation
-      setTimeout(() => {
-        // Re-initialize hover effects after a short delay
-        const hoverScript = document.createElement("script");
-        hoverScript.src =
-          "https://kjoshh.github.io/Main/js/hover-effects.js?=v26"; // Use your actual URL
-        document.body.appendChild(hoverScript);
-      }, 100);
     }
   });
 
