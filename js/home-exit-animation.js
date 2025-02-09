@@ -5,6 +5,39 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const interfi2 = document.querySelector(".outsidebutton");
   const menuovvv = document.getElementById("menuoverlay");
+  const xwrap = document.querySelector("._100wrap");
+  const fixedWrap = document.querySelector(".fixed-100");
+  const texts = document.querySelectorAll(".linkwrap");
+
+  // Function to reset the animation
+  function resetAnimation() {
+    console.log("Resetting animation");
+    // Make sure elements are visible
+    fixedWrap.style.display = "none";
+    if (interfi2) interfi2.style.opacity = "1"; // Check if element exists
+    if (menuovvv) menuovvv.style.height = "auto"; // Check if element exists
+    xwrap.style.height = "auto";
+    xwrap.style.top = "auto";
+    xwrap.style.bottom = "0";
+
+    // Reset GSAP properties
+    gsap.set(texts, { opacity: 1, y: 0 });
+    gsap.set(interfi2, { y: 0, opacity: 1, height: "auto" });
+    gsap.set(menuovvv, { height: "auto" });
+    gsap.set(xwrap, { height: "auto", top: "auto", bottom: "0" });
+  } // <-- This was the missing closing curly brace
+
+  // Detect back button navigation
+  window.addEventListener("pageshow", function (event) {
+    if (event.persisted) {
+      // The page is loaded from the cache (back button navigation)
+      console.log("Page loaded from cache (back button navigation)");
+      resetAnimation(); // Reset the animation
+    } else {
+      // The page is loaded normally
+      console.log("Page loaded normally");
+    }
+  });
 
   realLinks.forEach(function (link) {
     link.addEventListener("click", function (event) {
@@ -15,9 +48,6 @@ document.addEventListener("DOMContentLoaded", function () {
       const isJavaScriptLink = href.startsWith("javascript:");
       const hasTargetBlank = this.getAttribute("target") === "_blank";
       const isDownloadLink = this.hasAttribute("download");
-      const xwrap = document.querySelector("._100wrap");
-      const fixedWrap = document.querySelector(".fixed-100");
-      const texts = document.querySelectorAll(".linkwrap");
       const allLinks = document.querySelectorAll("a");
 
       if (isHashLink || isJavaScriptLink || hasTargetBlank || isDownloadLink) {
