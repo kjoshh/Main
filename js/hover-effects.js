@@ -1,4 +1,4 @@
-// v16 hover-effects.js
+// v16  hovr-effects.js
 document.addEventListener("DOMContentLoaded", function () {
   // Hover stuff
   let hoverEffectActive = false;
