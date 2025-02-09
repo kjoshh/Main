@@ -1,4 +1,4 @@
-// v32 hover-effects.js
+// v34 hover-effects.js
 document.addEventListener("DOMContentLoaded", function () {
   // Hover stuff
   let hoverEffectActive = false;
@@ -101,9 +101,5 @@ document.addEventListener("DOMContentLoaded", function () {
         stopHoverScript();
       }
     });
-  });
-
-  window.addEventListener("beforeunload", () => {
-    clearInterval(monitorTerminalState);
   });
 });
