@@ -1,4 +1,4 @@
-// v52 hover-effects.js
+// v53 hover-effects.js
 let monitorTerminalState; // Declare monitorTerminalState in the global scope
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -9,10 +9,6 @@ document.addEventListener("DOMContentLoaded", function () {
   let hoverEventHandler;
   let throttledHoverEventHandler; // Declare throttledHoverEventHandler in the outer scope
   let userHoverDisabled = false;
-
-  if (typeof window.terminalActive === "undefined") {
-    window.terminalActive = false;
-  }
 
   function throttle(func, limit) {
     let inThrottle;
@@ -94,31 +90,8 @@ document.addEventListener("DOMContentLoaded", function () {
   // Listen for a custom event to trigger hover initialization
   document.addEventListener("hoverEffectsReady", function () {
     console.log("hover-effects.js: hoverEffectsReady event received");
-    if (!window.terminalActive && !userHoverDisabled) {
-      hoverEffectActive = true;
-      initializeHoverScript();
-    }
-  });
-
-  function debounce(func, delay) {
-    let timeout;
-    return function (...args) {
-      const context = this;
-      clearTimeout(timeout);
-      timeout = setTimeout(() => func.apply(context, args), delay);
-    };
-  }
-
-  const debouncedInitializeHoverScript = debounce(initializeHoverScript, 250); // Adjust the delay as needed
-
-  document.addEventListener("terminalecitit", function () {
-    console.log(
-      "terminalecitit event received. userHoverDisabled =",
-      userHoverDisabled
-    );
-    if (!userHoverDisabled) {
-      debouncedInitializeHoverScript(); // Call the debounced function
-    }
+    hoverEffectActive = true;
+    initializeHoverScript();
   });
 
   const links = document.querySelectorAll("a");
@@ -146,14 +119,7 @@ document.addEventListener("DOMContentLoaded", function () {
     clearInterval(monitorTerminalState);
   });
 
-  monitorTerminalState = setInterval(() => {
-    // Assign to the global variable
-    if (window.terminalActive && hoverEffectActive) {
-      hoverEffectActive = false;
-      stopHoverScript();
-    } else if (!window.terminalActive && userHoverDisabled) {
-      hoverEffectActive = true;
-      initializeHoverScript();
-    }
-  }, 500);
+  // Initialize hover effects on DOMContentLoaded
+  hoverEffectActive = true;
+  initializeHoverScript();
 });
