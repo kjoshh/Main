@@ -1,4 +1,4 @@
-// v20home-exit-animation.js
+// v21home-exit-animation.js
 document.addEventListener("DOMContentLoaded", function () {
   // Select all <a> elements with class "link"
   const realLinks = document.querySelectorAll(".link");
@@ -8,45 +8,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const xwrap = document.querySelector("._100wrap");
   const fixedWrap = document.querySelector(".fixed-100");
   const texts = document.querySelectorAll(".linkwrap");
-
-  // Function to reset the animation
-  function resetAnimation() {
-    console.log("Resetting animation");
-    // Make sure elements are visible
-    fixedWrap.style.display = "none";
-    if (interfi2) interfi2.style.opacity = "1"; // Check if element exists
-    if (menuovvv) menuovvv.style.height = "22.5px"; // Check if element exists
-    xwrap.style.height = "100vh";
-    xwrap.style.top = "auto";
-    xwrap.style.bottom = "0";
-
-    // Reset GSAP properties
-    gsap.set(texts, { opacity: 1, y: 0 });
-    gsap.set(interfi2, { y: 0, opacity: 1, height: "auto" });
-    gsap.set(menuovvv, { height: "22.5px" });
-    gsap.set(xwrap, { height: "100vh", top: "auto", bottom: "0" });
-  }
-
-  // Detect back button navigation using visibilitychange event
-  document.addEventListener("visibilitychange", function () {
-    if (document.visibilityState === "visible") {
-      console.log("Page is now visible (back button navigation?)");
-      // Dynamically inject the hover-effects.js script
-      const hoverScript = document.createElement("script");
-      hoverScript.src =
-        "https://kjoshh.github.io/Main/js/hover-effects.js?=v26"; // Use your actual URL
-      hoverScript.onload = function () {
-        console.log("hover-effects.js loaded, initializing hover effects");
-        initializeHoverEffects(); // Call initializeHoverEffects after script is loaded
-      };
-      hoverScript.onerror = function () {
-        console.error("Failed to load hover-effects.js");
-      };
-      document.body.appendChild(hoverScript);
-
-      resetAnimation(); // Reset the animation
-    }
-  });
 
   realLinks.forEach(function (link) {
     link.addEventListener("click", function (event) {

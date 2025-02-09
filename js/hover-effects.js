@@ -1,16 +1,9 @@
-// v30 hover-effects.js
-let monitorTerminalState; // Declare monitorTerminalState in the global scope
-
+// v31 hover-effects.js
 document.addEventListener("DOMContentLoaded", function () {
   // Hover stuff
   let hoverEffectActive = false;
   let hoverEventHandler;
   let throttledHoverEventHandler;
-  let userHoverDisabled = false;
-
-  if (typeof window.terminalActive === "undefined") {
-    window.terminalActive = false;
-  }
 
   function throttle(func, limit) {
     let inThrottle;
@@ -55,24 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     };
 
-    //   // **Replace the throttled version**
-    //   throttledHoverEventHandler = throttle(hoverEventHandler, 50);
-    //   document.addEventListener("mousemove", throttledHoverEventHandler);
-
-    //   function processQueue() {
-    //     if (!hoverEffectActive || isHovering || hoveredLinksQueue.length === 0)
-    //       return;
-    //     isHovering = true;
-    //     const link = hoveredLinksQueue.shift();
-    //     link.dispatchEvent(new MouseEvent("mouseover", { bubbles: true }));
-    //     setTimeout(() => {
-    //       link.dispatchEvent(new MouseEvent("mouseout", { bubbles: true }));
-    //       isHovering = false;
-    //       processQueue();
-    //     }, 80);
-    //   }
-    // }
-    // **Replace the throttled version**
+    // **Replace the original event listener with the throttled version**
     throttledHoverEventHandler = throttle(hoverEventHandler, 50);
     document.addEventListener("mousemove", throttledHoverEventHandler);
 
@@ -97,48 +73,18 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  function initializeHoverEffects() {
-    if (!window.terminalActive && !userHoverDisabled) {
-      hoverEffectActive = true;
-      initializeHoverScript();
-    }
-  }
-
-  // Make sure initializeHoverEffects is globally available
-  window.initializeHoverEffects = function () {
-    if (!window.terminalActive && !userHoverDisabled) {
-      hoverEffectActive = true;
-      initializeHoverScript();
-    }
-  };
-
-  // Initialize hover effects on DOMContentLoaded
-  initializeHoverEffects();
+  // Initialize hover effects
+  hoverEffectActive = true;
+  initializeHoverScript();
 
   const links = document.querySelectorAll("a");
   links.forEach(function (link) {
     link.addEventListener("click", function (event) {
       const href = this.getAttribute("href");
-      if (hoverEffectActive || !userHoverDisabled) {
+      if (hoverEffectActive) {
         hoverEffectActive = false;
-        userHoverDisabled = true;
         stopHoverScript();
       }
     });
-
-    window.addEventListener("beforeunload", () => {
-      clearInterval(monitorTerminalState);
-    });
-
-    monitorTerminalState = setInterval(() => {
-      // Assign to the global variable
-      if (window.terminalActive && hoverEffectActive) {
-        hoverEffectActive = false;
-        stopHoverScript();
-      } else if (!window.terminalActive && !userHoverDisabled) {
-        hoverEffectActive = true;
-        initializeHoverScript();
-      }
-    }, 500);
   });
 });
