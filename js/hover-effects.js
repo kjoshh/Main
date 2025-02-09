@@ -1,11 +1,10 @@
-// v25 hover-effects.js
+// v26 hover-effects.js
 document.addEventListener("DOMContentLoaded", function () {
   // Hover stuff
   let hoverEffectActive = false;
   let hoverEventHandler;
   let throttledHoverEventHandler;
   let userHoverDisabled = false;
-  let hoverInitialized = false; // Track if hover effects have been initialized
 
   if (typeof window.terminalActive === "undefined") {
     window.terminalActive = false;
@@ -79,27 +78,15 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Initialize hover effects only when loading animation is complete and only once
   function initializeHoverEffects() {
-    if (!window.terminalActive && !userHoverDisabled && !hoverInitialized) {
+    if (!window.terminalActive && !userHoverDisabled) {
       hoverEffectActive = true;
       initializeHoverScript();
-      hoverInitialized = true; // Mark as initialized
     }
   }
 
-  // Listen for a custom event to trigger hover initialization
-  document.addEventListener("hoverEffectsReady", function () {
-    window.loadingAnimationComplete = true; // Ensure flag is set
-    initializeHoverEffects();
-  });
-
-  // Also try to initialize on DOMContentLoaded in case the event is missed
-  if (window.loadingAnimationComplete) {
-    initializeHoverEffects();
-  } else {
-    setTimeout(initializeHoverEffects, 2000); // Fallback after 2 seconds
-  }
+  // Initialize hover effects on DOMContentLoaded
+  initializeHoverEffects();
 
   const links = document.querySelectorAll("a");
   links.forEach(function (link) {
@@ -114,6 +101,6 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   window.addEventListener("beforeunload", () => {
-    clearInterval(monitorTerminalState);
+    stopHoverScript();
   });
 });

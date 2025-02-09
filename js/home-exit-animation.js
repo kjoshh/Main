@@ -1,4 +1,4 @@
-// v17 home-exit-animation.js
+//  v18home-exit-animation.js
 document.addEventListener("DOMContentLoaded", function () {
   // Select all <a> elements with class "link"
   const realLinks = document.querySelectorAll(".link");
@@ -25,6 +25,9 @@ document.addEventListener("DOMContentLoaded", function () {
     gsap.set(interfi2, { y: 0, opacity: 1, height: "auto" });
     gsap.set(menuovvv, { height: "22.5px" });
     gsap.set(xwrap, { height: "100vh", top: "auto", bottom: "0" });
+
+    // Initialize hover effects
+    initializeHoverEffects(); // Call initializeHoverEffects here
   }
 
   // Detect back button navigation using visibilitychange event
