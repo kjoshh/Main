@@ -53,7 +53,24 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     };
 
-    // **Replacth the throttled version**
+    //   // **Replace the throttled version**
+    //   throttledHoverEventHandler = throttle(hoverEventHandler, 50);
+    //   document.addEventListener("mousemove", throttledHoverEventHandler);
+
+    //   function processQueue() {
+    //     if (!hoverEffectActive || isHovering || hoveredLinksQueue.length === 0)
+    //       return;
+    //     isHovering = true;
+    //     const link = hoveredLinksQueue.shift();
+    //     link.dispatchEvent(new MouseEvent("mouseover", { bubbles: true }));
+    //     setTimeout(() => {
+    //       link.dispatchEvent(new MouseEvent("mouseout", { bubbles: true }));
+    //       isHovering = false;
+    //       processQueue();
+    //     }, 80);
+    //   }
+    // }
+    // **Replace the throttled version**
     throttledHoverEventHandler = throttle(hoverEventHandler, 50);
     document.addEventListener("mousemove", throttledHoverEventHandler);
 
