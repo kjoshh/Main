@@ -1,8 +1,8 @@
-// v45 hover-effects.js
+// v47 hover-effects.js
 let monitorTerminalState; // Declare monitorTerminalState in the global scope
 
 document.addEventListener("DOMContentLoaded", function () {
-  console.log("hover-effects.js: DOMContentLoaded"); // Add this line
+  console.log("hover-effects.js: DOMContentLoaded");
 
   // Hover stuff
   let hoverEffectActive = false;
@@ -41,28 +41,36 @@ document.addEventListener("DOMContentLoaded", function () {
       let smallestDistance = Infinity;
 
       // Get the position of the container element
-      const container = document.querySelector(".container"); // Replace with your container selector
+      const container = document.querySelector("#text-block"); // Replace with your container selector
+      if (!container) {
+        console.warn("Container element not found!");
+        return;
+      }
       const containerRect = container.getBoundingClientRect();
       const containerTop = containerRect.top;
       const containerLeft = containerRect.left;
 
+      // Find the closest link to the mouse position
       links.forEach((link) => {
         const rect = link.getBoundingClientRect();
         const linkCenterX = (rect.left + rect.right) / 2 - containerLeft; // Adjust for container position
-        const linkCenterY = rect.top + rect.bottom / 2 - containerTop; // Adjust for container position
+        const linkCenterY = (rect.top + rect.bottom) / 2 - containerTop; // Adjust for container position
         const distance = Math.sqrt(
-          Math.pow(mouseX - containerCenterX, 2) +
-            Math.pow(mouseY - containerCenterY, 2)
+          Math.pow(mouseX - linkCenterX, 2) + Math.pow(mouseY - linkCenterY, 2)
         );
+
         if (distance < smallestDistance) {
           smallestDistance = distance;
           closestLink = link;
         }
       });
+
+      // Check if the closest link is different from the last hovered link
       if (closestLink && closestLink !== lastHoveredLink) {
-        hoveredLinksQueue.push(closestLink);
-        lastHoveredLink = closestLink;
-        processQueue();
+        // If a new link is hovered, add it to the queue and update the last hovered link
+        hoveredLinksQueue.push(closestLink); // Add to the queue
+        lastHoveredLink = closestLink; // Update the last hovered link
+        processQueue(); // Start processing the queue
       }
     };
 
@@ -88,7 +96,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (hoverEventHandler) {
       document.removeEventListener(
         "mousemove",
-        throttledHoverEventHandler // Use throttHoverEventHandler here
+        throttledHoverEventHandler // Use throttledHoverEventHandler here
       );
       hoverEventHandler = null; // Clear the handler reference
     }
