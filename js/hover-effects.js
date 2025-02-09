@@ -1,12 +1,14 @@
-// v42 hover-effects.js
+// v44 hover-effects.js
 let monitorTerminalState; // Declare monitorTerminalState in the global scope
 
 document.addEventListener("DOMContentLoaded", function () {
+  console.log("hover-effects.js: DOMContentLoaded"); // Add this line
+
   // Hover stuff
   let hoverEffectActive = false;
   let hoverEventHandler;
-  let userHoverDisabled = false;
   let throttledHoverEventHandler; // Declare throttledHoverEventHandler in the outer scope
+  let userHoverDisabled = false;
 
   if (typeof window.terminalActive === "undefined") {
     window.terminalActive = false;
@@ -25,6 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function initializeHoverScript() {
+    console.log("hover-effects.js: initializeHoverScript() called");
     if (!hoverEffectActive) return;
     const hoveredLinksQueue = [];
     let isHovering = false;
@@ -39,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
       links.forEach((link) => {
         const rect = link.getBoundingClientRect();
         const linkCenterX = (rect.left + rect.right) / 2;
-        const linkCenterY = (rect.top + rect.bottom) / 2;
+        const linkCenterY = rect.top + rect.bottom / 2;
         const distance = Math.sqrt(
           Math.pow(mouseX - linkCenterX, 2) + Math.pow(mouseY - linkCenterY, 2)
         );
@@ -56,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     // **Replace the original event listener with the throttled version**
-    const throttledHoverEventHandler = throttle(hoverEventHandler, 50); // Adjust the limit as needed
+    throttledHoverEventHandler = throttle(hoverEventHandler, 50); // Assign throttledHoverEventHandler here
     document.addEventListener("mousemove", throttledHoverEventHandler);
 
     function processQueue() {
@@ -73,12 +76,11 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Function to stop the hover script
   function stopHoverScript() {
     if (hoverEventHandler) {
       document.removeEventListener(
         "mousemove",
-        throttledHoverEventHandler // Use throttledHoverEventHandler here
+        throttledHoverEventHandler // Use throttHoverEventHandler here
       );
       hoverEventHandler = null; // Clear the handler reference
     }
@@ -86,6 +88,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Listen for a custom event to trigger hover initialization
   document.addEventListener("hoverEffectsReady", function () {
+    console.log("hover-effects.js: hoverEffectsReady event received");
     if (!window.terminalActive && !userHoverDisabled) {
       hoverEffectActive = true;
       initializeHoverScript();
@@ -109,7 +112,7 @@ document.addEventListener("DOMContentLoaded", function () {
           userHoverDisabled = false;
           initializeHoverScript();
         }
-      }, 700); // Wait 750ms
+      }, 750); // Wait 750ms
     });
   });
 
@@ -122,7 +125,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (window.terminalActive && hoverEffectActive) {
       hoverEffectActive = false;
       stopHoverScript();
-    } else if (!window.terminalActive && !userHoverDisabled) {
+    } else if (!window.terminalActive && userHoverDisabled) {
       hoverEffectActive = true;
       initializeHoverScript();
     }
