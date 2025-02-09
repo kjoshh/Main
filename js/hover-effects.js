@@ -1,4 +1,4 @@
-// v34 hover-effects.js
+// v35 hover-effects.js
 document.addEventListener("DOMContentLoaded", function () {
   // Hover stuff
   let hoverEffectActive = false;
@@ -99,6 +99,9 @@ document.addEventListener("DOMContentLoaded", function () {
         hoverEffectActive = false;
         userHoverDisabled = true;
         stopHoverScript();
+        setTimeout(() => {
+          initializeHoverScript();
+        }, 500);
       }
     });
   });
