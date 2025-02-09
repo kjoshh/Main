@@ -1,4 +1,4 @@
-// v8 js/random.js
+// v9 js/random.js
 
 // Initialize global terminalActive variable
 if (typeof window.terminalActive === "undefined") {
@@ -363,9 +363,12 @@ function startGlitchEffect() {
       opacitititi.kill();
       window.terminalActive = false; // Deactivate the terminal globally
 
+      // Dispatch the custom event
+      const terminalEvent = new Event("terminalecitit");
+      document.dispatchEvent(terminalEvent);
+
       setTimeout(() => {
         gsap.set([glitchLayers, glitchImages], { opacity: 0 });
-
         gsap.set(topimgs, { opacity: 1 });
       }, 200);
     });
