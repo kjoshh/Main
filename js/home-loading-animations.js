@@ -1,4 +1,4 @@
-// v7 home-loading-animations.js
+// v8 home-loading-animations.js
 document.addEventListener("DOMContentLoaded", function () {
   console.log("home-loading-animations.js: DOMContentLoaded");
 
@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", function () {
         },
       });
       // Call dispatchHoverEvent after ALL animations are complete
-      setTimeout(dispatchHoverEvent, 1500); // Adjust delay as needed
+      setTimeout(dispatchHoverEvent, 500); // Adjust delay as needed
     }, 600);
   }
 
@@ -233,7 +233,7 @@ document.addEventListener("DOMContentLoaded", function () {
           },
         });
         // Call dispatchHoverEvent after ALL animations are complete
-        setTimeout(dispatchHoverEvent, 1500); // Adjust delay as needed
+        setTimeout(dispatchHoverEvent, 500); // Adjust delay as needed
       }, 3100);
     }, 750);
   }
