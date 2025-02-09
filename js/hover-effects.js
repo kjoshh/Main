@@ -1,4 +1,4 @@
-// v48 hover-effects.js
+// v49 hover-effects.js
 let monitorTerminalState; // Declare monitorTerminalState in the global scope
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -106,6 +106,14 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("hover-effects.js: hoverEffectsReady event received");
     if (!window.terminalActive && !userHoverDisabled) {
       hoverEffectActive = true;
+      initializeHoverScript();
+    }
+  });
+
+  document.addEventListener("terminalecitit", function () {
+    console.log("terminalecitwefofewnoweinfewfionit");
+    if (!window.terminalActive && !userHoverDisabled) {
+      window.terminalActive = false;
       initializeHoverScript();
     }
   });
