@@ -1,4 +1,4 @@
-// v40 hover-effects.js
+// v41 hover-effects.js
 let monitorTerminalState; // Declare monitorTerminalState in the global scope
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -100,6 +100,16 @@ document.addEventListener("DOMContentLoaded", function () {
       stopHoverScript(); // Always stop the hover script
       hoverEffectActive = false; // Set hoverEffectActive to false
       userHoverDisabled = true; // Set userHoverDisabled to true
+
+      // Re-initialize hover effects after a delay
+      setTimeout(() => {
+        if (!window.terminalActive && userHoverDisabled) {
+          // Only re-initialize if the user is still on the same page
+          hoverEffectActive = true;
+          userHoverDisabled = false;
+          initializeHoverScript();
+        }
+      }, 500); // Wait 750ms
     });
   });
 
