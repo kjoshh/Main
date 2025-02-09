@@ -1,4 +1,4 @@
-// v5 js/random.js
+// v6 js/random.js
 
 // Initialize global terminalActive variable
 if (typeof window.terminalActive === "undefined") {
@@ -200,7 +200,7 @@ function getBrowserName() {
 
 // Function to initialize the terminal
 function initializeTerminalScript() {
-  window.terminalActive = true; // Activate the terminal
+  // window.terminalActive = true; // Activate the terminal
   terminalInitialized = true; // Mark terminal as initialized
 
   // Add event listener only once
