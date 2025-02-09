@@ -1,10 +1,11 @@
-// v21 hover-effects.js
+// v22 hover-effects.js
 document.addEventListener("DOMContentLoaded", function () {
   // Hover stuff
   let hoverEffectActive = false;
   let hoverEventHandler;
-  let throttledHoverEventHandler; // Declare throttledHoverEventHandler in the outer scope
+  let throttledHoverEventHandler;
   let userHoverDisabled = false;
+  let monitorTerminalState; // Declare monitorTerminalState
 
   if (typeof window.terminalActive === "undefined") {
     window.terminalActive = false;
@@ -54,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     // **Replace the original event listener with the throttled version**
-    throttledHoverEventHandler = throttle(hoverEventHandler, 50); // Assign throttledHoverEventHandler here
+    throttledHoverEventHandler = throttle(hoverEventHandler, 50);
     document.addEventListener("mousemove", throttledHoverEventHandler);
 
     function processQueue() {
@@ -71,15 +72,30 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Function to stop the hover script
   function stopHoverScript() {
     if (hoverEventHandler && throttledHoverEventHandler) {
-      document.removeEventListener(
-        "mousemove",
-        throttledHoverEventHandler // Use throttledHoverEventHandler here
-      );
-      hoverEventHandler = null; // Clear the handler reference
-      // throttledHoverEventHandler = null; // Remove this line
+      document.removeEventListener("mousemove", throttledHoverEventHandler);
+      hoverEventHandler = null;
+    }
+  }
+
+  function startHoverInterval() {
+    stopHoverInterval(); // Clear any existing interval
+    monitorTerminalState = setInterval(() => {
+      if (window.terminalActive && hoverEffectActive) {
+        hoverEffectActive = false;
+        stopHoverScript();
+      } else if (!window.terminalActive && !userHoverDisabled) {
+        hoverEffectActive = true;
+        initializeHoverScript();
+      }
+    }, 500);
+  }
+
+  function stopHoverInterval() {
+    if (monitorTerminalState) {
+      clearInterval(monitorTerminalState);
+      monitorTerminalState = null;
     }
   }
 
@@ -91,7 +107,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Listen for a custom event to trigger hover initialization
   document.addEventListener("hoverEffectsReady", function () {
     if (window.loadingAnimationComplete) {
       initializeHoverEffects();
@@ -121,21 +136,19 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  window.monitorTerminalState = setInterval(() => {
-    // Assign to the global variable
-    if (window.terminalActive && hoverEffectActive) {
-      hoverEffectActive = false;
-      stopHoverScript();
-    } else if (!window.terminalActive && !userHoverDisabled) {
-      hoverEffectActive = true;
-      initializeHoverScript();
+  // Start/Stop the interval based on visibility
+  document.addEventListener("visibilitychange", function () {
+    if (document.visibilityState === "visible") {
+      startHoverInterval();
+    } else {
+      stopHoverInterval();
     }
-  }, 500);
+  });
+
+  // Start the interval initially
+  startHoverInterval();
 
   window.addEventListener("beforeunload", () => {
-    if (window.monitorTerminalState) {
-      // Check if window.monitorTerminalState is defined
-      clearInterval(window.monitorTerminalState);
-    }
+    stopHoverInterval();
   });
 });
