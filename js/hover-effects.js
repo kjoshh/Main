@@ -1,4 +1,4 @@
-// v18  hovr-effects.js
+// v19 hover-effects.js
 document.addEventListener("DOMContentLoaded", function () {
   // Hover stuff
   let hoverEffectActive = false;
@@ -83,11 +83,29 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Listen for a custom event to trigger hover initialization
-  document.addEventListener("hoverEffectsReady", function () {
+  // Initialize hover effects only when loading animation is complete
+  function initializeHoverEffects() {
     if (!window.terminalActive && !userHoverDisabled) {
       hoverEffectActive = true;
       initializeHoverScript();
+    }
+  }
+
+  // Listen for a custom event to trigger hover initialization
+  document.addEventListener("hoverEffectsReady", function () {
+    if (window.loadingAnimationComplete) {
+      initializeHoverEffects();
+    } else {
+      // If loading animation is not complete, wait and try again
+      setTimeout(() => {
+        if (window.loadingAnimationComplete) {
+          initializeHoverEffects();
+        } else {
+          console.warn(
+            "Loading animation still not complete, hover effects not initialized."
+          );
+        }
+      }, 500); // Check again after 500ms
     }
   });
 
@@ -103,21 +121,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  monitorTerminalState = setInterval(() => {
-    // Assign to the global variable
-    if (window.terminalActive && hoverEffectActive) {
-      hoverEffectActive = false;
-      stopHoverScript();
-    } else if (!window.terminalActive && !userHoverDisabled) {
-      hoverEffectActive = true;
-      initializeHoverScript();
-    }
-  }, 500);
-
   window.addEventListener("beforeunload", () => {
-    if (monitorTerminalState) {
-      // Check if monitorTerminalState is defined
-      clearInterval(monitorTerminalState);
-    }
+    clearInterval(monitorTerminalState);
   });
 });
