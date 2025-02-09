@@ -1,9 +1,8 @@
-// v.36 hover-effects.js
+// v37 hover-effects.js
 document.addEventListener("DOMContentLoaded", function () {
   // Hover stuff
   let hoverEffectActive = false;
   let hoverEventHandler;
-  let throttledHoverEventHandler; // Declare throttledHoverEvfvdvfdfvdfentHandler in the outer scope
   let userHoverDisabled = false;
 
   if (typeof window.terminalActive === "undefined") {
@@ -54,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     // **Replace the original event listener with the throttled version**
-    throttledHoverEventHandler = throttle(hoverEventHandler, 50); // Assign throttledHoverEventHandler here
+    const throttledHoverEventHandler = throttle(hoverEventHandler, 50); // Adjust the limit as needed
     document.addEventListener("mousemove", throttledHoverEventHandler);
 
     function processQueue() {
@@ -73,13 +72,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Function to stop the hover script
   function stopHoverScript() {
-    if (hoverEventHandler && throttledHoverEventHandler) {
+    if (hoverEventHandler) {
       document.removeEventListener(
         "mousemove",
         throttledHoverEventHandler // Use throttledHoverEventHandler here
       );
       hoverEventHandler = null; // Clear the handler reference
-      // throttledHoverEventHandler = null; // Remove this line
     }
   }
 
@@ -95,11 +93,17 @@ document.addEventListener("DOMContentLoaded", function () {
   links.forEach(function (link) {
     link.addEventListener("click", function (event) {
       const href = this.getAttribute("href");
-      if (hoverEffectActive || !userHoverDisabled) {
-        hoverEffectActive = false;
-        userHoverDisabled = true;
-        stopHoverScript();
+      if (hoverEventHandler) {
+        document.removeEventListener(
+          "mousemove",
+          throttledHoverEventHandler // Use throttledHoverEventHandler here
+        );
+        hoverEventHandler = null; // Clear the handler reference
       }
     });
   });
-});
+
+  window.addEventListener("beforeunload", () => {
+    clearInterval(monitorTerminalState);
+  });
+}); // <-- This was the missing closing curly brace
