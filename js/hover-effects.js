@@ -1,5 +1,5 @@
 // v54 hover-effects.js
-let monitorTerminalState; // Declare monitorTerminalState in the global scope
+let monitorTerminalState;
 
 document.addEventListener("DOMContentLoaded", function () {
   console.log("hover-effects.js: DOMContentLoaded");
@@ -7,8 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Hover stuff
   let hoverEffectActive = false;
   let hoverEventHandler;
-  let throttledHoverEventHandler; // Declare throttledHoverEventHandler in the outer scope
-  let userHoverDisabled = false;
+  let throttledHoverEventHandler; // dont knowwww:((((((((((((((((((
 
   function throttle(func, limit) {
     let inThrottle;
