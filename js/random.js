@@ -543,7 +543,7 @@ function stopTerminal() {
   const systemResponse = "ERROR: System resources corrupted."; // More realistic response
 
   setTimeout(() => {
-    errortext.style.display = "block";
+    errortext.style.display = "none";
 
     flickerNoise();
     startGlitchEffect();
