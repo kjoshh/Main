@@ -1,4 +1,4 @@
-// v44 hover-effects.js
+// v45 hover-effects.js
 let monitorTerminalState; // Declare monitorTerminalState in the global scope
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -39,12 +39,20 @@ document.addEventListener("DOMContentLoaded", function () {
       const links = document.querySelectorAll(".link");
       let closestLink = null;
       let smallestDistance = Infinity;
+
+      // Get the position of the container element
+      const container = document.querySelector(".container"); // Replace with your container selector
+      const containerRect = container.getBoundingClientRect();
+      const containerTop = containerRect.top;
+      const containerLeft = containerRect.left;
+
       links.forEach((link) => {
         const rect = link.getBoundingClientRect();
-        const linkCenterX = (rect.left + rect.right) / 2;
-        const linkCenterY = rect.top + rect.bottom / 2;
+        const linkCenterX = (rect.left + rect.right) / 2 - containerLeft; // Adjust for container position
+        const linkCenterY = rect.top + rect.bottom / 2 - containerTop; // Adjust for container position
         const distance = Math.sqrt(
-          Math.pow(mouseX - linkCenterX, 2) + Math.pow(mouseY - linkCenterY, 2)
+          Math.pow(mouseX - containerCenterX, 2) +
+            Math.pow(mouseY - containerCenterY, 2)
         );
         if (distance < smallestDistance) {
           smallestDistance = distance;
