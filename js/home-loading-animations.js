@@ -1,4 +1,4 @@
-// v6 home-loading-animations.js
+// v7 home-loading-animations.js
 document.addEventListener("DOMContentLoaded", function () {
   console.log("home-loading-animations.js: DOMContentLoaded");
 
@@ -58,7 +58,6 @@ document.addEventListener("DOMContentLoaded", function () {
       duration: 1,
       ease: "power4.inOut",
       willChange: "width, height",
-      onComplete: dispatchHoverEvent, // Call dispatchHoverEvent after animation
     });
 
     setTimeout(() => {
@@ -95,6 +94,8 @@ document.addEventListener("DOMContentLoaded", function () {
           });
         },
       });
+      // Call dispatchHoverEvent after ALL animations are complete
+      setTimeout(dispatchHoverEvent, 1500); // Adjust delay as needed
     }, 600);
   }
 
@@ -185,7 +186,6 @@ document.addEventListener("DOMContentLoaded", function () {
         delay: 2.55,
         ease: "power3.inOut",
         willChange: "width, height",
-        onComplete: dispatchHoverEvent, // Call dispatchHoverEvent after animation
       });
       gsap.to(numberElement, {
         top: "calc(0% - 20px)",
@@ -232,6 +232,8 @@ document.addEventListener("DOMContentLoaded", function () {
             pathsvg.style.display = "none";
           },
         });
+        // Call dispatchHoverEvent after ALL animations are complete
+        setTimeout(dispatchHoverEvent, 1500); // Adjust delay as needed
       }, 3100);
     }, 750);
   }
