@@ -1,8 +1,10 @@
-require('dotenv').config();
-const { WebflowClient } = require('webflow-api'); // Corrected require statement
+require("dotenv").config();
+const { WebflowClient } = require("webflow-api");
 
-const webflow = new WebflowClient({ accessToken: process.env.0ec865532e40c46732c08412b84f815e292fd74c84270c40c6c17c05b5706e85 });
-const siteId = process.env.667fd3c0c1176778ca6d3c12;
+const webflow = new WebflowClient({
+  accessToken: process.env.WEBFLOW_API_TOKEN,
+});
+const siteId = process.env.WEBFLOW_SITE_ID;
 
 async function updateImages() {
   try {
@@ -26,12 +28,12 @@ async function updateImages() {
       const root = parse(html);
 
       // 6. Find all <img> tags and modify them
-      const images = root.querySelectorAll('img');
-      images.forEach(img => {
+      const images = root.querySelectorAll("img");
+      images.forEach((img) => {
         if (img.attributes.src) {
-          img.setAttribute('data-src', img.attributes.src);
-          img.setAttribute('src', '');
-          img.classList.add('lazy-image');
+          img.setAttribute("data-src", img.attributes.src);
+          img.setAttribute("src", "");
+          img.classList.add("lazy-image");
         }
       });
 
@@ -48,9 +50,9 @@ async function updateImages() {
       console.log(`Page ${page.name} updated successfully.`);
     }
 
-    console.log('All pages updated!');
+    console.log("All pages updated!");
   } catch (error) {
-    console.error('Error updating images:', error);
+    console.error("Error updating images:", error);
   }
 }
 
