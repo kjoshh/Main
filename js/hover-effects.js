@@ -1,4 +1,4 @@
-// v39 hover-effects.js
+// v40 hover-effects.js
 let monitorTerminalState; // Declare monitorTerminalState in the global scope
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -96,15 +96,13 @@ document.addEventListener("DOMContentLoaded", function () {
   links.forEach(function (link) {
     link.addEventListener("click", function (event) {
       const href = this.getAttribute("href");
-      if (hoverEventHandler) {
-        document.removeEventListener(
-          "mousemove",
-          throttledHoverEventHandler // Use throttledHoverEventHandler here
-        );
-        hoverEventHandler = null; // Clear the handler reference
-      }
+      // The following lines are the only changes from the previous version
+      stopHoverScript(); // Always stop the hover script
+      hoverEffectActive = false; // Set hoverEffectActive to false
+      userHoverDisabled = true; // Set userHoverDisabled to true
     });
   });
+
   window.addEventListener("beforeunload", () => {
     clearInterval(monitorTerminalState);
   });
