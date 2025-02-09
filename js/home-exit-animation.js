@@ -1,4 +1,4 @@
-// v16 home-exit-animation.js
+// v17 home-exit-animation.js
 document.addEventListener("DOMContentLoaded", function () {
   // Select all <a> elements with class "link"
   const realLinks = document.querySelectorAll(".link");
@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const fixedWrap = document.querySelector(".fixed-100");
   const texts = document.querySelectorAll(".linkwrap");
 
-  // Function to reset the animatio
+  // Function to reset the animation
   function resetAnimation() {
     console.log("Resetting animation");
     // Make sure elements are visible
@@ -25,17 +25,13 @@ document.addEventListener("DOMContentLoaded", function () {
     gsap.set(interfi2, { y: 0, opacity: 1, height: "auto" });
     gsap.set(menuovvv, { height: "22.5px" });
     gsap.set(xwrap, { height: "100vh", top: "auto", bottom: "0" });
-  } // <-- This was the missing closing curly brace
+  }
 
-  // Detect back button navigation
-  window.addEventListener("pageshow", function (event) {
-    if (event.persisted) {
-      // The page is loaded from the cache (back button navigation)
-      console.log("Page loaded from cache (back button navigation)");
+  // Detect back button navigation using visibilitychange event
+  document.addEventListener("visibilitychange", function () {
+    if (document.visibilityState === "visible") {
+      console.log("Page is now visible (back button navigation?)");
       resetAnimation(); // Reset the animation
-    } else {
-      // The page is loaded normally
-      console.log("Page loaded normally");
     }
   });
 
