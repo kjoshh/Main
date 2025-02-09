@@ -1,4 +1,4 @@
-// v14home-exit-animation.js
+// v15home-exit-animation.js
 document.addEventListener("DOMContentLoaded", function () {
   // Select all <a> elements with class "link"
   const realLinks = document.querySelectorAll(".link");
@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const fixedWrap = document.querySelector(".fixed-100");
   const texts = document.querySelectorAll(".linkwrap");
 
-  // Function to reset the animation
+  // Function to reset the animatio
   function resetAnimation() {
     console.log("Resetting animation");
     // Make sure elements are visible
