@@ -1,4 +1,4 @@
-// v51 hover-effects.js
+// v52 hover-effects.js
 let monitorTerminalState; // Declare monitorTerminalState in the global scope
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -100,13 +100,24 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
+  function debounce(func, delay) {
+    let timeout;
+    return function (...args) {
+      const context = this;
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func.apply(context, args), delay);
+    };
+  }
+
+  const debouncedInitializeHoverScript = debounce(initializeHoverScript, 250); // Adjust the delay as needed
+
   document.addEventListener("terminalecitit", function () {
     console.log(
       "terminalecitit event received. userHoverDisabled =",
       userHoverDisabled
-    ); // Add this line
+    );
     if (!userHoverDisabled) {
-      initializeHoverScript();
+      debouncedInitializeHoverScript(); // Call the debounced function
     }
   });
 
