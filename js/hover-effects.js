@@ -1,4 +1,4 @@
-// v53 hover-effects.js
+// v54 hover-effects.js
 let monitorTerminalState; // Declare monitorTerminalState in the global scope
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -119,7 +119,7 @@ document.addEventListener("DOMContentLoaded", function () {
     clearInterval(monitorTerminalState);
   });
 
-  // Initialize hover effects on DOMContentLoaded
-  hoverEffectActive = true;
-  initializeHoverScript();
+  // // Initialize hover effects on DOMContentLoaded
+  // hoverEffectActive = true;
+  // initializeHoverScript();
 });
