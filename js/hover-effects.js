@@ -1,4 +1,4 @@
-// v41 hover-effects.js
+// v42 hover-effects.js
 let monitorTerminalState; // Declare monitorTerminalState in the global scope
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -109,7 +109,7 @@ document.addEventListener("DOMContentLoaded", function () {
           userHoverDisabled = false;
           initializeHoverScript();
         }
-      }, 500); // Wait 750ms
+      }, 700); // Wait 750ms
     });
   });
 
