@@ -1,4 +1,4 @@
-// v26 hover-effects.js
+// v27 hover-effects.js
 document.addEventListener("DOMContentLoaded", function () {
   // Hover stuff
   let hoverEffectActive = false;
@@ -85,9 +85,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Initialize hover effects on DOMContentLoaded
-  initializeHoverEffects();
-
   const links = document.querySelectorAll("a");
   links.forEach(function (link) {
     link.addEventListener("click", function (event) {
@@ -101,6 +98,9 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   window.addEventListener("beforeunload", () => {
-    stopHoverScript();
+    clearInterval(monitorTerminalState);
   });
+
+  // Initialize hover effects after a short delay
+  setTimeout(initializeHoverEffects, 500);
 });

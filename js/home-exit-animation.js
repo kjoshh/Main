@@ -1,4 +1,4 @@
-//  v18home-exit-animation.js
+// v19home-exit-animation.js
 document.addEventListener("DOMContentLoaded", function () {
   // Select all <a> elements with class "link"
   const realLinks = document.querySelectorAll(".link");
@@ -25,9 +25,6 @@ document.addEventListener("DOMContentLoaded", function () {
     gsap.set(interfi2, { y: 0, opacity: 1, height: "auto" });
     gsap.set(menuovvv, { height: "22.5px" });
     gsap.set(xwrap, { height: "100vh", top: "auto", bottom: "0" });
-
-    // Initialize hover effects
-    initializeHoverEffects(); // Call initializeHoverEffects here
   }
 
   // Detect back button navigation using visibilitychange event
@@ -35,6 +32,13 @@ document.addEventListener("DOMContentLoaded", function () {
     if (document.visibilityState === "visible") {
       console.log("Page is now visible (back button navigation?)");
       resetAnimation(); // Reset the animation
+      setTimeout(() => {
+        // Re-initialize hover effects after a short delay
+        const hoverScript = document.createElement("script");
+        hoverScript.src =
+          "https://kjoshh.github.io/Main/js/hover-effects.js?=v26"; // Use your actual URL
+        document.body.appendChild(hoverScript);
+      }, 100);
     }
   });
 
