@@ -993,7 +993,7 @@ function popupAndReloadOnResize() {
     const popup = document.getElementById("resize-popup");
     const countdownElement = document.getElementById("downcount");
 
-    // Show the pop-up
+    // Shw the pop-up
     popup.style.display = "block";
 
     // Initialize the countdown
