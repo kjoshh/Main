@@ -1,11 +1,11 @@
-// v22 hover-effects.js
+// v23 hover-effects.js
 document.addEventListener("DOMContentLoaded", function () {
   // Hover stuff
   let hoverEffectActive = false;
   let hoverEventHandler;
   let throttledHoverEventHandler;
   let userHoverDisabled = false;
-  let monitorTerminalState; // Declare monitorTerminalState
+  let hoverInitialized = false; // Track if hover effects have been initialized
 
   if (typeof window.terminalActive === "undefined") {
     window.terminalActive = false;
@@ -79,50 +79,27 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  function startHoverInterval() {
-    stopHoverInterval(); // Clear any existing interval
-    monitorTerminalState = setInterval(() => {
-      if (window.terminalActive && hoverEffectActive) {
-        hoverEffectActive = false;
-        stopHoverScript();
-      } else if (!window.terminalActive && !userHoverDisabled) {
-        hoverEffectActive = true;
-        initializeHoverScript();
-      }
-    }, 500);
-  }
-
-  function stopHoverInterval() {
-    if (monitorTerminalState) {
-      clearInterval(monitorTerminalState);
-      monitorTerminalState = null;
-    }
-  }
-
-  // Initialize hover effects only when loading animation is complete
+  // Initialize hover effects only when loading animation is complete and only once
   function initializeHoverEffects() {
-    if (!window.terminalActive && !userHoverDisabled) {
+    if (!window.terminalActive && !userHoverDisabled && !hoverInitialized) {
       hoverEffectActive = true;
       initializeHoverScript();
+      hoverInitialized = true; // Mark as initialized
     }
   }
 
+  // Listen for a custom event to trigger hover initialization
   document.addEventListener("hoverEffectsReady", function () {
-    if (window.loadingAnimationComplete) {
-      initializeHoverEffects();
-    } else {
-      // If loading animation is not complete, wait and try again
-      setTimeout(() => {
-        if (window.loadingAnimationComplete) {
-          initializeHoverEffects();
-        } else {
-          console.warn(
-            "Loading animation still not complete, hover effects not initialized."
-          );
-        }
-      }, 500); // Check again after 500ms
-    }
+    window.loadingAnimationComplete = true; // Ensure flag is set
+    initializeHoverEffects();
   });
+
+  // Also try to initialize on DOMContentLoaded in case the event is missed
+  if (window.loadingAnimationComplete) {
+    initializeHoverEffects();
+  } else {
+    setTimeout(initializeHoverEffects, 2000); // Fallback after 2 seconds
+  }
 
   const links = document.querySelectorAll("a");
   links.forEach(function (link) {
@@ -136,19 +113,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // Start/Stop the interval based on visibility
-  document.addEventListener("visibilitychange", function () {
-    if (document.visibilityState === "visible") {
-      startHoverInterval();
-    } else {
-      stopHoverInterval();
-    }
-  });
-
-  // Start the interval initially
-  startHoverInterval();
-
   window.addEventListener("beforeunload", () => {
-    stopHoverInterval();
+    clearInterval(monitorTerminalState);
   });
 });
