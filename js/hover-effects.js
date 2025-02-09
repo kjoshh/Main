@@ -1,9 +1,9 @@
-// v35 hover-effects.js
+// v36 hover-effects.js
 document.addEventListener("DOMContentLoaded", function () {
   // Hover stuff
   let hoverEffectActive = false;
   let hoverEventHandler;
-  let throttledHoverEventHandler; // Declare throttledHoverEventHandler in the outer scope
+  let throttledHoverEventHandler; // Declare throttledHoverEvfvdvfdfvdfentHandler in the outer scope
   let userHoverDisabled = false;
 
   if (typeof window.terminalActive === "undefined") {
@@ -99,9 +99,6 @@ document.addEventListener("DOMContentLoaded", function () {
         hoverEffectActive = false;
         userHoverDisabled = true;
         stopHoverScript();
-        setTimeout(() => {
-          initializeHoverScript();
-        }, 500);
       }
     });
   });
