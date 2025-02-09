@@ -1,4 +1,4 @@
-// v38 hover-effects.js
+// v39 hover-effects.js
 let monitorTerminalState; // Declare monitorTerminalState in the global scope
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
   let hoverEffectActive = false;
   let hoverEventHandler;
   let userHoverDisabled = false;
+  let throttledHoverEventHandler; // Declare throttledHoverEventHandler in the outer scope
 
   if (typeof window.terminalActive === "undefined") {
     window.terminalActive = false;
