@@ -1,4 +1,6 @@
-// v29 hover-effects.js
+// v30 hover-effects.js
+let monitorTerminalState; // Declare monitorTerminalState in the global scope
+
 document.addEventListener("DOMContentLoaded", function () {
   // Hover stuff
   let hoverEffectActive = false;
@@ -95,6 +97,13 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  function initializeHoverEffects() {
+    if (!window.terminalActive && !userHoverDisabled) {
+      hoverEffectActive = true;
+      initializeHoverScript();
+    }
+  }
+
   // Make sure initializeHoverEffects is globally available
   window.initializeHoverEffects = function () {
     if (!window.terminalActive && !userHoverDisabled) {
@@ -103,7 +112,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   };
 
-  // Initialize hover effects on DOMContLoaded
+  // Initialize hover effects on DOMContentLoaded
   initializeHoverEffects();
 
   const links = document.querySelectorAll("a");
@@ -120,5 +129,16 @@ document.addEventListener("DOMContentLoaded", function () {
     window.addEventListener("beforeunload", () => {
       clearInterval(monitorTerminalState);
     });
+
+    monitorTerminalState = setInterval(() => {
+      // Assign to the global variable
+      if (window.terminalActive && hoverEffectActive) {
+        hoverEffectActive = false;
+        stopHoverScript();
+      } else if (!window.terminalActive && !userHoverDisabled) {
+        hoverEffectActive = true;
+        initializeHoverScript();
+      }
+    }, 500);
   });
 });
