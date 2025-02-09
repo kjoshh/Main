@@ -1,4 +1,4 @@
-// v50 hover-effects.js
+// v51 hover-effects.js
 let monitorTerminalState; // Declare monitorTerminalState in the global scope
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -39,16 +39,6 @@ document.addEventListener("DOMContentLoaded", function () {
       const links = document.querySelectorAll(".link");
       let closestLink = null;
       let smallestDistance = Infinity;
-
-      // Get the position of the container element
-      // const container = document.querySelector("#text-block"); // Replace with your container selector
-      // if (!container) {
-      //   console.warn("Container element not found!");
-      //   return;
-      // }
-      // const containerRect = container.getBoundingClientRect();
-      // const containerTop = containerRect.top;
-      // const containerLeft = containerRect.left;
 
       links.forEach((link) => {
         const rect = link.getBoundingClientRect();
@@ -111,7 +101,10 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   document.addEventListener("terminalecitit", function () {
-    console.log("terminalecitwefofewnoweinfewfionit");
+    console.log(
+      "terminalecitit event received. userHoverDisabled =",
+      userHoverDisabled
+    ); // Add this line
     if (!userHoverDisabled) {
       initializeHoverScript();
     }

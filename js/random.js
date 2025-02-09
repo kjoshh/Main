@@ -1,4 +1,4 @@
-// v9 js/random.js
+// v10 js/random.js
 
 // Initialize global terminalActive variable
 if (typeof window.terminalActive === "undefined") {
@@ -364,6 +364,7 @@ function startGlitchEffect() {
       window.terminalActive = false; // Deactivate the terminal globally
 
       // Dispatch the custom event
+      console.log("Dispatching terminalecitit event"); // Add this line
       const terminalEvent = new Event("terminalecitit");
       document.dispatchEvent(terminalEvent);
 
