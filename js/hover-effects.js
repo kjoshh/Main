@@ -1,4 +1,4 @@
-// v47 hover-effects.js
+// v48 hover-effects.js
 let monitorTerminalState; // Declare monitorTerminalState in the global scope
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -41,20 +41,19 @@ document.addEventListener("DOMContentLoaded", function () {
       let smallestDistance = Infinity;
 
       // Get the position of the container element
-      const container = document.querySelector("#text-block"); // Replace with your container selector
-      if (!container) {
-        console.warn("Container element not found!");
-        return;
-      }
-      const containerRect = container.getBoundingClientRect();
-      const containerTop = containerRect.top;
-      const containerLeft = containerRect.left;
+      // const container = document.querySelector("#text-block"); // Replace with your container selector
+      // if (!container) {
+      //   console.warn("Container element not found!");
+      //   return;
+      // }
+      // const containerRect = container.getBoundingClientRect();
+      // const containerTop = containerRect.top;
+      // const containerLeft = containerRect.left;
 
-      // Find the closest link to the mouse position
       links.forEach((link) => {
         const rect = link.getBoundingClientRect();
-        const linkCenterX = (rect.left + rect.right) / 2 - containerLeft; // Adjust for container position
-        const linkCenterY = (rect.top + rect.bottom) / 2 - containerTop; // Adjust for container position
+        const linkCenterX = (rect.left + rect.right) / 2;
+        const linkCenterY = (rect.top + rect.bottom) / 2;
         const distance = Math.sqrt(
           Math.pow(mouseX - linkCenterX, 2) + Math.pow(mouseY - linkCenterY, 2)
         );
