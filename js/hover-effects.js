@@ -1,10 +1,9 @@
-//v11 hover-effects.js
-let monitorTerminalState; // Declare monitorTerminalState in the global scope
-
+// v12 hover-effects.js
 document.addEventListener("DOMContentLoaded", function () {
   // Hover stuff
   let hoverEffectActive = false;
   let hoverEventHandler;
+  let throttledHoverEventHandler; // Declare throttledHoverEventHandler in the outer scope
   let userHoverDisabled = false;
 
   if (typeof window.terminalActive === "undefined") {
@@ -55,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     // **Replace the original event listener with the throttled version**
-    const throttledHoverEventHandler = throttle(hoverEventHandler, 50); // Adjust the limit as needed
+    throttledHoverEventHandler = throttle(hoverEventHandler, 50); // Assign throttledHoverEventHandler here
     document.addEventListener("mousemove", throttledHoverEventHandler);
 
     function processQueue() {
@@ -74,12 +73,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Function to stop the hover script
   function stopHoverScript() {
-    if (hoverEventHandler) {
+    if (hoverEventHandler && throttledHoverEventHandler) {
       document.removeEventListener(
         "mousemove",
         throttledHoverEventHandler // Use throttledHoverEventHandler here
       );
       hoverEventHandler = null; // Clear the handler reference
+      // throttledHoverEventHandler = null; // Remove this line
     }
   }
 
@@ -102,17 +102,6 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   });
-
-  monitorTerminalState = setInterval(() => {
-    // Assign to the global variable
-    if (window.terminalActive && hoverEffectActive) {
-      hoverEffectActive = false;
-      stopHoverScript();
-    } else if (!window.terminalActive && !userHoverDisabled) {
-      hoverEffectActive = true;
-      initializeHoverScript();
-    }
-  }, 500);
 
   window.addEventListener("beforeunload", () => {
     clearInterval(monitorTerminalState);
