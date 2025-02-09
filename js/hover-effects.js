@@ -15,8 +15,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // Make sure elements are visible
     fixedWrap.style.display = "none";
     if (interfi2) interfi2.style.opacity = "1"; // Check if element exists
-    if (menuovvv) menuovvv.style.height = "auto"; // Check if element exists
-    xwrap.style.height = "auto";
+    if (menuovvv) menuovvv.style.height = "22.5px"; // Check if element exists
+    xwrap.style.height = "100vh";
     xwrap.style.top = "auto";
     xwrap.style.bottom = "0";
 
