@@ -1,4 +1,4 @@
-// v18 js/random.js
+// v19 js/random.js
 
 // Initialize global terminalActive variable
 if (typeof window.terminalActive === "undefined") {
@@ -110,29 +110,6 @@ function handleCommand(command) {
     appendOutputWithTyping(`Unknown command: ${command}`, null);
   }
 }
-
-function sanitizeHTML(str) {
-  return str.replace(/[&<>"']/g, function (m) {
-    switch (m) {
-      case "&":
-        return "&amp;";
-      case "<":
-        return "&lt;";
-      case ">":
-        return "&gt;";
-      case '"':
-        return "&quot;";
-      case "'":
-        return "&#39;";
-      default:
-        return m;
-    }
-  });
-}
-
-let uptimeInterval; // Store the interval ID
-let updateUptimeFunction; // Store the reference to the function
-
 // Function to calculate uptime
 function getUptime() {
   const startTime = new Date();
@@ -146,54 +123,17 @@ function getUptime() {
   const hours = Math.floor(
     (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
   );
-  const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((difference % (1000 * 60)) / 1000);
 
-  return `${days} Days, ${hours} Hours, ${minutes} Minutes, ${seconds} Seconds`;
+  return `${days} Days, ${hours} Hours`;
 }
 
 const commands = {
   whois:
     "Josh Kern:\n– Amateur photographer\n– Professional dogwalker\nType any of the words above to find out more.",
-  inspect: (outputDiv, inputField) => {
-    // Clear any existing interval
-    if (uptimeInterval) {
-      console.log("Clearing interval", uptimeInterval);
-      clearInterval(uptimeInterval);
-      uptimeInterval = null; // Important: Reset to null
-      console.log("Interval cleared", uptimeInterval);
-    }
-
-    // Named function for the interval
-    updateUptimeFunction = () => {
-      try {
-        const uptime = getUptime();
-        const inspectText = `– Url: www.kernjosh.com\n– Version: 1.1\n- Uptime: ${uptime}\n- Framework: HTML, CSS, JavaScript, GSAP, Three.js`;
-
-        // Find the existing element with the uptime information
-        let uptimeElement = outputDiv.querySelector(".uptime-info");
-
-        if (!uptimeElement) {
-          // If it doesn't exist, create it
-          uptimeElement = document.createElement("div");
-          uptimeElement.classList.add("uptime-info");
-          outputDiv.appendChild(uptimeElement);
-        }
-
-        // Sanitize and update the content of the element
-        uptimeElement.innerHTML = sanitizeHTML(inspectText);
-        scrollToBottom();
-      } catch (error) {
-        console.error("Error in updateUptime:", error);
-      }
-    };
-
-    // Initial update
-    updateUptimeFunction();
-
-    // Set interval using the named function
-    uptimeInterval = setInterval(updateUptimeFunction, 1000);
-    inputField.focus(); // Ensure focus remains on the input field
+  inspect: () => {
+    const uptime = getUptime();
+    const inspectText = `– Url: www.kernjosh.com\n– Version: 1.1\n- Uptime: ${uptime}\n- Framework: HTML, CSS, JavaScript, GSAP, Three.js`;
+    appendOutputWithTyping(inspectText, null);
   },
 
   copyright:
