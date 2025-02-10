@@ -1,4 +1,4 @@
-// v11 js/random.js
+// v12 js/random.js
 
 // Initialize global terminalActive variable
 if (typeof window.terminalActive === "undefined") {
@@ -141,7 +141,7 @@ const commands = {
 
     const updateUptime = () => {
       const uptime = getUptime();
-      const inspectText = `– Url: www.kernjosh.com\n– Version: 1.1\n- Uptime: ${uptime}\n- Framework: HTML, CSS, JavaScript`;
+      const inspectText = `– Url: www.kernjosh.com\n– Version: 1.1\n- Uptime: ${uptime}\n- Framework: HTML, CSS, JavaScript, GSAP, Three.js`;
 
       // Find the existing element with the uptime information
       let uptimeElement = outputDiv.querySelector(".uptime-info");
@@ -154,7 +154,7 @@ const commands = {
       }
 
       // Sanitize and update the content of the element
-      uptimeElement.innerHTML = sanitizeHTML(inspectText);
+      uptimeElement.innerHTML = inspectText; // Use this instead
       scrollToBottom();
     };
 
