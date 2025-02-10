@@ -1,4 +1,4 @@
-// v13 js/random.js
+// v14 js/random.js
 
 // Initialize global terminalActive variable
 if (typeof window.terminalActive === "undefined") {
@@ -93,6 +93,7 @@ function typeText(element, text, callback) {
 
 // Function to handle commands
 function handleCommand(command) {
+  console.log("Handling command: ", command); // Add this line
   if (!window.terminalActive) return;
 
   if (command.trim() === "exit") {
@@ -154,8 +155,10 @@ const commands = {
   inspect: () => {
     // Clear any existing interval
     if (uptimeInterval) {
+      console.log("Clearing interval", uptimeInterval);
       clearInterval(uptimeInterval);
       uptimeInterval = null; // Important: Reset to null
+      console.log("Interval cleared", uptimeInterval);
     }
 
     const updateUptime = () => {
@@ -182,6 +185,7 @@ const commands = {
 
     // Set interval to update every second
     uptimeInterval = setInterval(updateUptime, 1000);
+    inputField.focus(); // Ensure focus remains on the input field
   },
 
   copyright:
