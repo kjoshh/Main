@@ -1,4 +1,4 @@
-// v10 js/random.js
+// v11 js/random.js
 
 // Initialize global terminalActive variable
 if (typeof window.terminalActive === "undefined") {
@@ -109,7 +109,6 @@ function handleCommand(command) {
     appendOutputWithTyping(`Unknown command: ${command}`, null);
   }
 }
-
 // Function to calculate uptime
 function getUptime() {
   const startTime = new Date();
@@ -128,14 +127,44 @@ function getUptime() {
 
   return `${days} Days, ${hours} Hours, ${minutes} Minutes, ${seconds} Seconds`;
 }
+
+let uptimeInterval; // Store the interval ID
+
 const commands = {
   whois:
     "Josh Kern:\n– Amateur photographer\n– Professional dogwalker\nType any of the words above to find out more.",
   inspect: () => {
-    const uptime = getUptime();
-    const inspectText = `– Url: www.kernjosh.com\n– Version: 1.1\n- Uptime: ${uptime}\n- Framework: HTML, CSS, JavaScript`;
-    appendOutputWithTyping(inspectText, null);
+    // Clear any existing interval
+    if (uptimeInterval) {
+      clearInterval(uptimeInterval);
+    }
+
+    const updateUptime = () => {
+      const uptime = getUptime();
+      const inspectText = `– Url: www.kernjosh.com\n– Version: 1.1\n- Uptime: ${uptime}\n- Framework: HTML, CSS, JavaScript`;
+
+      // Find the existing element with the uptime information
+      let uptimeElement = outputDiv.querySelector(".uptime-info");
+
+      if (!uptimeElement) {
+        // If it doesn't exist, create it
+        uptimeElement = document.createElement("div");
+        uptimeElement.classList.add("uptime-info");
+        outputDiv.appendChild(uptimeElement);
+      }
+
+      // Sanitize and update the content of the element
+      uptimeElement.innerHTML = sanitizeHTML(inspectText);
+      scrollToBottom();
+    };
+
+    // Initial update
+    updateUptime();
+
+    // Set interval to update every second
+    uptimeInterval = setInterval(updateUptime, 1000);
   },
+
   copyright:
     "Copyrights are for little boy businessmen. Share it. Copy it. Paste it. Cut it. Destroy it. Remake it… and credit me.\n– Gravestones/Church Signs by Moose Lane. 2016ish & No Apology #1 by Heidi. Early 1990s",
   contact:
