@@ -1,4 +1,4 @@
-// v14 js/random.js
+// v15 js/random.js
 
 // Initialize global terminalActive variable
 if (typeof window.terminalActive === "undefined") {
@@ -91,7 +91,6 @@ function typeText(element, text, callback) {
   }, typingSpeed);
 }
 
-// Function to handle commands
 function handleCommand(command) {
   console.log("Handling command: ", command); // Add this line
   if (!window.terminalActive) return;
@@ -102,7 +101,8 @@ function handleCommand(command) {
   }
   if (commands[command]) {
     if (typeof commands[command] === "function") {
-      commands[command]();
+      // Pass outputDiv and inputField to the inspect command
+      commands[command](outputDiv, inputField);
     } else {
       appendOutputWithTyping(commands[command], null);
     }
@@ -152,7 +152,7 @@ let uptimeInterval; // Store the interval ID
 const commands = {
   whois:
     "Josh Kern:\n– Amateur photographer\n– Professional dogwalker\nType any of the words above to find out more.",
-  inspect: () => {
+  inspect: (outputDiv, inputField) => {
     // Clear any existing interval
     if (uptimeInterval) {
       console.log("Clearing interval", uptimeInterval);
@@ -162,28 +162,31 @@ const commands = {
     }
 
     const updateUptime = () => {
-      const uptime = getUptime();
-      const inspectText = `– Url: www.kernjosh.com\n– Version: 1.1\n- Uptime: ${uptime}\n- Framework: HTML, CSS, JavaScript, GSAP, Three.js`;
+      try {
+        const uptime = getUptime();
+        const inspectText = `– Url: www.kernjosh.com\n– Version: 1.1\n- Uptime: ${uptime}\n- Framework: HTML, CSS, JavaScript, GSAP, Three.js`;
 
-      // Find the existing element with the uptime information
-      let uptimeElement = outputDiv.querySelector(".uptime-info");
+        // Find the existing element with the uptime information
+        let uptimeElement = outputDiv.querySelector(".uptime-info");
 
-      if (!uptimeElement) {
-        // If it doesn't exist, create it
-        uptimeElement = document.createElement("div");
-        uptimeElement.classList.add("uptime-info");
-        outputDiv.appendChild(uptimeElement);
+        if (!uptimeElement) {
+          // If it doesn't exist, create it
+          uptimeElement = document.createElement("div");
+          uptimeElement.classList.add("uptime-info");
+          outputDiv.appendChild(uptimeElement);
+        }
+
+        // Sanitize and update the content of the element
+        uptimeElement.innerHTML = sanitizeHTML(inspectText);
+        scrollToBottom();
+      } catch (error) {
+        console.error("Error in updateUptime:", error);
       }
-
-      // Sanitize and update the content of the element
-      uptimeElement.innerHTML = sanitizeHTML(inspectText);
-      scrollToBottom();
     };
 
     // Initial update
     updateUptime();
 
-    // Set interval to update every second
     uptimeInterval = setInterval(updateUptime, 1000);
     inputField.focus(); // Ensure focus remains on the input field
   },
