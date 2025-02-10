@@ -1,4 +1,4 @@
-// v20 js/random.js
+// v21 js/random.js
 
 // Initialize global terminalActive variable
 if (typeof window.terminalActive === "undefined") {
