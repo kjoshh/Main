@@ -1,4 +1,4 @@
-// v19 js/random.js
+// v20 js/random.js
 
 // Initialize global terminalActive variable
 if (typeof window.terminalActive === "undefined") {
@@ -246,7 +246,7 @@ function initializeTerminalScript() {
 
   appendOutputWithTyping(banner, () => {
     const initialMessage =
-      "\nLast login: 9th Feb 2025\n\n**********************************************************\n*****  Type 'help' for a list of available commands  *****\n*****  Type 'exit' to return to the previous screen  *****\n**********************************************************\n\n";
+      "\nLast login by kernjosh.com: 10th Feb 2025, 14:53\n\n**********************************************************\n*****  Type 'help' for a list of available commands  *****\n*****  Type 'exit' to return to the previous screen  *****\n**********************************************************\n\n";
     appendOutputWithTyping(initialMessage, () => {
       inputField.focus(); // Focus the input field
       updateCursorPosition();
