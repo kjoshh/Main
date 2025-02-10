@@ -1,4 +1,4 @@
-// v15 js/random.js
+// v16 js/random.js
 
 // Initialize global terminalActive variable
 if (typeof window.terminalActive === "undefined") {
@@ -146,7 +146,6 @@ function sanitizeHTML(str) {
     }
   });
 }
-
 let uptimeInterval; // Store the interval ID
 
 const commands = {
@@ -161,33 +160,12 @@ const commands = {
       console.log("Interval cleared", uptimeInterval);
     }
 
-    const updateUptime = () => {
-      try {
-        const uptime = getUptime();
-        const inspectText = `– Url: www.kernjosh.com\n– Version: 1.1\n- Uptime: ${uptime}\n- Framework: HTML, CSS, JavaScript, GSAP, Three.js`;
+    // Simplified: Just set the interval and log a message
+    uptimeInterval = setInterval(() => {
+      console.log("Interval running");
+      inputField.focus(); // Ensure focus remains on the input field
+    }, 1000);
 
-        // Find the existing element with the uptime information
-        let uptimeElement = outputDiv.querySelector(".uptime-info");
-
-        if (!uptimeElement) {
-          // If it doesn't exist, create it
-          uptimeElement = document.createElement("div");
-          uptimeElement.classList.add("uptime-info");
-          outputDiv.appendChild(uptimeElement);
-        }
-
-        // Sanitize and update the content of the element
-        uptimeElement.innerHTML = sanitizeHTML(inspectText);
-        scrollToBottom();
-      } catch (error) {
-        console.error("Error in updateUptime:", error);
-      }
-    };
-
-    // Initial update
-    updateUptime();
-
-    uptimeInterval = setInterval(updateUptime, 1000);
     inputField.focus(); // Ensure focus remains on the input field
   },
 
