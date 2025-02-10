@@ -1,4 +1,4 @@
-// v10 js/random.js
+// v21 js/random.js
 
 // Initialize global terminalActive variable
 if (typeof window.terminalActive === "undefined") {
@@ -91,8 +91,8 @@ function typeText(element, text, callback) {
   }, typingSpeed);
 }
 
-// Function to handle commands
 function handleCommand(command) {
+  console.log("Handling command: ", command); // Add this line
   if (!window.terminalActive) return;
 
   if (command.trim() === "exit") {
@@ -101,7 +101,8 @@ function handleCommand(command) {
   }
   if (commands[command]) {
     if (typeof commands[command] === "function") {
-      commands[command]();
+      // Pass outputDiv and inputField to the inspect command
+      commands[command](outputDiv, inputField);
     } else {
       appendOutputWithTyping(commands[command], null);
     }
@@ -109,12 +110,32 @@ function handleCommand(command) {
     appendOutputWithTyping(`Unknown command: ${command}`, null);
   }
 }
+// Function to calculate uptime
+function getUptime() {
+  const startTime = new Date();
+  startTime.setDate(startTime.getDate() - 1); // Subtract one day
+  startTime.setHours(15, 0, 0, 0); // Set to 3 PM
+
+  const now = new Date();
+  const difference = now.getTime() - startTime.getTime();
+
+  const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+  const hours = Math.floor(
+    (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+  );
+
+  return `${days} Days, ${hours} Hours`;
+}
 
 const commands = {
   whois:
     "Josh Kern:\n– Amateur photographer\n– Professional dogwalker\nType any of the words above to find out more.",
-  inspect:
-    "– Url: www.kernjosh.com\n– Version: 1.1\n- Uptime: 0 Days\n- Framework: HTML, CSS, JavaScript",
+  inspect: () => {
+    const uptime = getUptime();
+    const inspectText = `– Url: www.kernjosh.com\n– Version: 1.1\n- Uptime: ${uptime}\n- Framework: HTML, CSS, JavaScript, GSAP, Three.js`;
+    appendOutputWithTyping(inspectText, null);
+  },
+
   copyright:
     "Copyrights are for little boy businessmen. Share it. Copy it. Paste it. Cut it. Destroy it. Remake it… and credit me.\n– Gravestones/Church Signs by Moose Lane. 2016ish & No Apology #1 by Heidi. Early 1990s",
   contact:
@@ -225,7 +246,7 @@ function initializeTerminalScript() {
 
   appendOutputWithTyping(banner, () => {
     const initialMessage =
-      "\nLast login: 9th Feb 2025\n\n**********************************************************\n*****  Type 'help' for a list of available commands  *****\n*****  Type 'exit' to return to the previous screen  *****\n**********************************************************\n\n";
+      "\nLast login by kernjosh.com: 10th Feb 2025, 14:53 CET\n\n**********************************************************\n*****  Type 'help' for a list of available commands  *****\n*****  Type 'exit' to return to the previous screen  *****\n**********************************************************\n\n";
     appendOutputWithTyping(initialMessage, () => {
       inputField.focus(); // Focus the input field
       updateCursorPosition();
