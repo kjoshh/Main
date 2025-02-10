@@ -246,7 +246,7 @@ function initializeTerminalScript() {
 
   appendOutputWithTyping(banner, () => {
     const initialMessage =
-      "\nLast login by kernjosh.com: 10th Feb 2025, 14:53\n\n**********************************************************\n*****  Type 'help' for a list of available commands  *****\n*****  Type 'exit' to return to the previous screen  *****\n**********************************************************\n\n";
+      "\nLast login by kernjosh.com: 10th Feb 2025, 14:53 CET\n\n**********************************************************\n*****  Type 'help' for a list of available commands  *****\n*****  Type 'exit' to return to the previous screen  *****\n**********************************************************\n\n";
     appendOutputWithTyping(initialMessage, () => {
       inputField.focus(); // Focus the input field
       updateCursorPosition();
