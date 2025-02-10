@@ -1,4 +1,4 @@
-// v12 js/random.js
+// v13 js/random.js
 
 // Initialize global terminalActive variable
 if (typeof window.terminalActive === "undefined") {
@@ -127,6 +127,24 @@ function getUptime() {
 
   return `${days} Days, ${hours} Hours, ${minutes} Minutes, ${seconds} Seconds`;
 }
+function sanitizeHTML(str) {
+  return str.replace(/[&<>"']/g, function (m) {
+    switch (m) {
+      case "&":
+        return "&amp;";
+      case "<":
+        return "&lt;";
+      case ">":
+        return "&gt;";
+      case '"':
+        return "&quot;";
+      case "'":
+        return "&#39;";
+      default:
+        return m;
+    }
+  });
+}
 
 let uptimeInterval; // Store the interval ID
 
@@ -137,6 +155,7 @@ const commands = {
     // Clear any existing interval
     if (uptimeInterval) {
       clearInterval(uptimeInterval);
+      uptimeInterval = null; // Important: Reset to null
     }
 
     const updateUptime = () => {
@@ -154,7 +173,7 @@ const commands = {
       }
 
       // Sanitize and update the content of the element
-      uptimeElement.innerHTML = inspectText; // Use this instead
+      uptimeElement.innerHTML = sanitizeHTML(inspectText);
       scrollToBottom();
     };
 
