@@ -110,11 +110,32 @@ function handleCommand(command) {
   }
 }
 
+// Function to calculate uptime
+function getUptime() {
+  const startTime = new Date();
+  startTime.setDate(startTime.getDate() - 1); // Subtract one day
+  startTime.setHours(15, 0, 0, 0); // Set to 3 PM
+
+  const now = new Date();
+  const difference = now.getTime() - startTime.getTime();
+
+  const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+  const hours = Math.floor(
+    (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+  );
+  const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+  return `${days} Days, ${hours} Hours, ${minutes} Minutes, ${seconds} Seconds`;
+}
 const commands = {
   whois:
     "Josh Kern:\n– Amateur photographer\n– Professional dogwalker\nType any of the words above to find out more.",
-  inspect:
-    "– Url: www.kernjosh.com\n– Version: 1.1\n- Uptime: 0 Days\n- Framework: HTML, CSS, JavaScript",
+  inspect: () => {
+    const uptime = getUptime();
+    const inspectText = `– Url: www.kernjosh.com\n– Version: 1.1\n- Uptime: ${uptime}\n- Framework: HTML, CSS, JavaScript`;
+    appendOutputWithTyping(inspectText, null);
+  },
   copyright:
     "Copyrights are for little boy businessmen. Share it. Copy it. Paste it. Cut it. Destroy it. Remake it… and credit me.\n– Gravestones/Church Signs by Moose Lane. 2016ish & No Apology #1 by Heidi. Early 1990s",
   contact:
