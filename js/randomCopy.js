@@ -1,4 +1,4 @@
-// v17 js/random.js
+// v18 js/random.js
 
 // Initialize global terminalActive variable
 if (typeof window.terminalActive === "undefined") {
@@ -110,24 +110,7 @@ function handleCommand(command) {
     appendOutputWithTyping(`Unknown command: ${command}`, null);
   }
 }
-// Function to calculate uptime
-function getUptime() {
-  const startTime = new Date();
-  startTime.setDate(startTime.getDate() - 1); // Subtract one day
-  startTime.setHours(15, 0, 0, 0); // Set to 3 PM
 
-  const now = new Date();
-  const difference = now.getTime() - startTime.getTime();
-
-  const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-  const hours = Math.floor(
-    (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-  );
-  const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-
-  return `${days} Days, ${hours} Hours, ${minutes} Minutes, ${seconds} Seconds`;
-}
 function sanitizeHTML(str) {
   return str.replace(/[&<>"']/g, function (m) {
     switch (m) {
@@ -149,6 +132,25 @@ function sanitizeHTML(str) {
 
 let uptimeInterval; // Store the interval ID
 let updateUptimeFunction; // Store the reference to the function
+
+// Function to calculate uptime
+function getUptime() {
+  const startTime = new Date();
+  startTime.setDate(startTime.getDate() - 1); // Subtract one day
+  startTime.setHours(15, 0, 0, 0); // Set to 3 PM
+
+  const now = new Date();
+  const difference = now.getTime() - startTime.getTime();
+
+  const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+  const hours = Math.floor(
+    (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+  );
+  const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+  return `${days} Days, ${hours} Hours, ${minutes} Minutes, ${seconds} Seconds`;
+}
 
 const commands = {
   whois:
