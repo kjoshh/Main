@@ -32,7 +32,7 @@ document.querySelector(".text-block-29").addEventListener("click", () => {
 
   // Set a timeout for 4 seconds to redirect to the specified URL after scroll completes
   setTimeout(() => {
-    window.location.href = "https://kernjosh.com/how-to-leave-town-home";
+    window.location.href = "https://kernjosh.com/desktop";
   }, 3000); // Redirect delay after button click
 });
 
