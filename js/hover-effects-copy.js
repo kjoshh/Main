@@ -1,4 +1,4 @@
-// v55 hover-effects.js
+// v56 hover-effects.js
 let monitorTerminalState;
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -23,6 +23,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Y offsets for each link (assuming they are in order)
   const linkOffsets = [0, 25.3, 50.6, 74.75, 100.1, 124, 149.3];
+
+  // Image elements
+  const imageClasses = [
+    "archive",
+    "htlt",
+    "loveme",
+    "fuckme",
+    "rauberrrrrrr",
+    "hasli",
+    "nje",
+  ];
+  const imageElements = {};
 
   function updateLinksCache() {
     links = document.querySelectorAll(".link");
@@ -56,6 +68,18 @@ document.addEventListener("DOMContentLoaded", function () {
       );
       return; // Exit if the element is not found
     }
+
+    // Find the image elements
+    imageClasses.forEach((className) => {
+      imageElements[className] = document.querySelector(
+        `.imgbghome.${className}`
+      );
+      if (!imageElements[className]) {
+        console.error(
+          `Image element with class .imgbghome.${className} not found!`
+        );
+      }
+    });
 
     hoverEventHandler = (event) => {
       if (!hoverEffectActive) return;
@@ -113,6 +137,18 @@ document.addEventListener("DOMContentLoaded", function () {
       const offsetY = linkOffsets[linkIndex];
       backgroundImage.style.transform = `translateY(${offsetY}px)`; // Move the background image
     }
+
+    // Update image opacities
+    imageClasses.forEach((className, index) => {
+      const imageElement = imageElements[className];
+      if (imageElement) {
+        if (index === linkIndex) {
+          imageElement.style.opacity = 1;
+        } else {
+          imageElement.style.opacity = 0;
+        }
+      }
+    });
 
     setTimeout(() => {
       link.dispatchEvent(new MouseEvent("mouseout", { bubbles: true }));
