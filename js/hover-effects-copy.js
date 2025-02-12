@@ -1,4 +1,4 @@
-// v54 hover-effects.js
+// v55 hover-effects.js
 let monitorTerminalState;
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -47,16 +47,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     updateLinksCache(); // Initial cache update
 
-    // Create and append the background image element
-    backgroundImage = document.createElement("div");
-    backgroundImage.classList.add("imglinkbg", "arch");
-    backgroundImage.style.position = "absolute";
-    backgroundImage.style.top = "0"; // Initial position
-    backgroundImage.style.left = "0";
-    backgroundImage.style.width = "100%"; // Adjust as needed
-    backgroundImage.style.height = "25px"; // Adjust as needed
-    backgroundImage.style.zIndex = "-1"; // Behind the link
-    document.body.appendChild(backgroundImage); // Or append to a more appropriate container
+    // Find the existing background image element
+    backgroundImage = document.querySelector(".imglinkbg.arch");
+
+    if (!backgroundImage) {
+      console.error(
+        "Background image element with class .imglinkbg.arch not found!"
+      );
+      return; // Exit if the element is not found
+    }
 
     hoverEventHandler = (event) => {
       if (!hoverEffectActive) return;
@@ -129,11 +128,8 @@ document.addEventListener("DOMContentLoaded", function () {
       hoverEventHandler = null; // Clear the original handler
     }
 
-    // Remove the background image element
-    if (backgroundImage) {
-      backgroundImage.remove();
-      backgroundImage = null;
-    }
+    // Do NOT remove the background image element from the DOM
+    // as it already exists in the HTML
   }
 
   // Listen for a custom event to trigger hover initialization
