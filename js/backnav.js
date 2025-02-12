@@ -1,9 +1,5 @@
 const cross = document.getElementById("cross");
 
-if (!cross) {
-  return;
-}
-
 cross.addEventListener("click", function (e) {
   e.preventDefault();
 
