@@ -1,14 +1,46 @@
-// v54 hover-effects.js
+// v57 hover-effects.js
 let monitorTerminalState;
 
 document.addEventListener("DOMContentLoaded", function () {
   console.log("hover-effects.js: DOMContentLoaded");
 
+  // Configuration
+  const hoverDelay = 750; // Delay before re-enabling hover after click (ms)
+  const throttleLimit = 50; // Throttle limit for mousemove events (ms)
+
   // Hover stuff
   let hoverEffectActive = false;
+  let userHoverDisabled = false; // Flag to disable hover temporarily after click
   let hoverEventHandler;
-  let throttledHoverEventHandler; // dont knowwww:((((((((((((((((((
+  let throttledHoverEventHandler;
+  let links = []; // Cache the links array
+  let isHovering = false;
+  let lastHoveredLink = null;
+  const hoveredLinksQueue = []; // Queue of links to hover
 
+  // Background image element
+  let backgroundImage = null;
+
+  // Y offsets for each link (assuming they are in order)
+  const linkOffsets = [0, 25.3, 50.6, 74.75, 100.1, 124, 149.3];
+
+  // Image elements
+  const imageClasses = [
+    "archive",
+    "htlt",
+    "loveme",
+    "fuckme",
+    "rauberrrrrrr",
+    "hasli",
+    "nje",
+  ];
+  const imageElements = {};
+
+  function updateLinksCache() {
+    links = document.querySelectorAll(".link");
+  }
+
+  // Throttle function to limit the rate of function execution
   function throttle(func, limit) {
     let inThrottle;
     return function (...args) {
@@ -24,66 +56,119 @@ document.addEventListener("DOMContentLoaded", function () {
   function initializeHoverScript() {
     console.log("hover-effects.js: initializeHoverScript() called");
     if (!hoverEffectActive) return;
-    const hoveredLinksQueue = [];
-    let isHovering = false;
-    let lastHoveredLink = null;
+
+    updateLinksCache(); // Initial cache update
+
+    // Find the existing background image element
+    backgroundImage = document.querySelector(".imglinkbg.arch");
+
+    if (!backgroundImage) {
+      console.error(
+        "Background image element with class .imglinkbg.arch not found!"
+      );
+      return; // Exit if the element is not found
+    }
+
+    // Find the image elements
+    imageClasses.forEach((className) => {
+      imageElements[className] = document.querySelector(
+        `.imgbghome.${className}`
+      );
+      if (!imageElements[className]) {
+        console.error(
+          `Image element with class .imgbghome.${className} not found!`
+        );
+      }
+    });
+
     hoverEventHandler = (event) => {
       if (!hoverEffectActive) return;
+
       const mouseX = event.clientX;
       const mouseY = event.clientY;
-      const links = document.querySelectorAll(".link");
       let closestLink = null;
-      let smallestDistance = Infinity;
+      let smallestDistanceSq = Infinity; // Use squared distance for performance
 
       links.forEach((link) => {
-        const rect = link.getBoundingClientRect();
-        const linkCenterX = (rect.left + rect.right) / 2;
-        const linkCenterY = (rect.top + rect.bottom) / 2;
-        const distance = Math.sqrt(
-          Math.pow(mouseX - linkCenterX, 2) + Math.pow(mouseY - linkCenterY, 2)
-        );
+        try {
+          const rect = link.getBoundingClientRect();
+          const linkCenterX = (rect.left + rect.right) / 2;
+          const linkCenterY = (rect.top + rect.bottom) / 2;
 
-        if (distance < smallestDistance) {
-          smallestDistance = distance;
-          closestLink = link;
+          // Calculate squared distance (more efficient)
+          const distanceSq =
+            Math.pow(mouseX - linkCenterX, 2) +
+            Math.pow(mouseY - linkCenterY, 2);
+
+          if (distanceSq < smallestDistanceSq) {
+            smallestDistanceSq = distanceSq;
+            closestLink = link;
+          }
+        } catch (error) {
+          console.error("Error getting bounding rect:", error);
         }
       });
 
-      // Check if the closest link is different from the last hovered link
       if (closestLink && closestLink !== lastHoveredLink) {
-        // If a new link is hovered, add it to the queue and update the last hovered link
-        hoveredLinksQueue.push(closestLink); // Add to the queue
-        lastHoveredLink = closestLink; // Update the last hovered link
-        processQueue(); // Start processing the queue
+        hoveredLinksQueue.push(closestLink);
+        lastHoveredLink = closestLink;
+        processQueue();
       }
     };
 
-    // **Replace the original event listener with the throttled version**
-    throttledHoverEventHandler = throttle(hoverEventHandler, 50); // Assign throttledHoverEventHandler here
+    throttledHoverEventHandler = throttle(hoverEventHandler, throttleLimit);
     document.addEventListener("mousemove", throttledHoverEventHandler);
-
-    function processQueue() {
-      if (!hoverEffectActive || isHovering || hoveredLinksQueue.length === 0)
-        return;
-      isHovering = true;
-      const link = hoveredLinksQueue.shift();
-      link.dispatchEvent(new MouseEvent("mouseover", { bubbles: true }));
-      setTimeout(() => {
-        link.dispatchEvent(new MouseEvent("mouseout", { bubbles: true }));
-        isHovering = false;
-        processQueue();
-      }, 80);
+  }
+  function processQueue() {
+    if (!hoverEffectActive || isHovering || hoveredLinksQueue.length === 0) {
+      return;
     }
+
+    isHovering = true;
+    const link = hoveredLinksQueue.shift();
+
+    // Dispatch mouseover and mouseout events
+    link.dispatchEvent(new MouseEvent("mouseover", { bubbles: true }));
+
+    // Position the background image
+    const linkIndex = Array.from(links).indexOf(link); // Find the index of the link
+    if (linkIndex !== -1 && linkIndex < linkOffsets.length) {
+      const offsetY = linkOffsets[linkIndex];
+      backgroundImage.style.transform = `translateY(${offsetY}px)`; // Move the background image
+    }
+
+    // Update image opacities
+    imageClasses.forEach((className, index) => {
+      const imageElement = imageElements[className];
+      if (imageElement) {
+        if (index === linkIndex) {
+          // Fade in the new image immediately
+          imageElement.style.opacity = 1;
+        } else {
+          // Fade out the old image with a slight delay
+          setTimeout(() => {
+            imageElement.style.opacity = 0;
+          }, 50); // Adjust the delay (50ms) as needed
+        }
+      }
+    });
+
+    setTimeout(() => {
+      link.dispatchEvent(new MouseEvent("mouseout", { bubbles: true }));
+      isHovering = false;
+      processQueue();
+    }, 80);
   }
 
   function stopHoverScript() {
-    if (hoverEventHandler) {
-      document.removeEventListener(
-        "mousemove",
-        throttledHoverEventHandler // Use throttledHoverEventHandler here
-      );
-      hoverEventHandler = null; // Clear the handler reference
+    if (throttledHoverEventHandler) {
+      document.removeEventListener("mousemove", throttledHoverEventHandler);
+      throttledHoverEventHandler = null; // Clear the throttled handler
+      hoverEventHandler = null; // Clear the original handler
     }
+
+    // Do NOT remove the background image element from the DOM
+    // as it already exists in the HTML
   }
 
   // Listen for a custom event to trigger hover initialization
@@ -93,24 +178,21 @@ document.addEventListener("DOMContentLoaded", function () {
     initializeHoverScript();
   });
 
-  const links = document.querySelectorAll("a");
-  links.forEach(function (link) {
+  // Handle link clicks
+  const anchorLinks = document.querySelectorAll("a");
+  anchorLinks.forEach(function (link) {
     link.addEventListener("click", function (event) {
-      const href = this.getAttribute("href");
-      // The following lines are the only changes from the previous version
-      stopHoverScript(); // Always stop the hover script
-      hoverEffectActive = false; // Set hoverEffectActive to false
-      userHoverDisabled = true; // Set userHoverDisabled to true
+      stopHoverScript();
+      hoverEffectActive = false;
+      userHoverDisabled = true;
 
-      // Re-initialize hover effects after a delay
       setTimeout(() => {
         if (!window.terminalActive && userHoverDisabled) {
-          // Only re-initialize if the user is still on the same page
           hoverEffectActive = true;
           userHoverDisabled = false;
           initializeHoverScript();
         }
-      }, 750); // Wait 750ms
+      }, hoverDelay);
     });
   });
 
@@ -118,7 +200,12 @@ document.addEventListener("DOMContentLoaded", function () {
     clearInterval(monitorTerminalState);
   });
 
-  // // Initialize hover effects on DOMContentLoaded
-  // hoverEffectActive = true;
-  // initializeHoverScript();
+  // MutationObserver to update links cache when DOM changes
+  const observer = new MutationObserver(updateLinksCache);
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true,
+    attributes: false,
+    characterData: false,
+  });
 });
