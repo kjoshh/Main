@@ -1,4 +1,4 @@
-// v56 hover-effects.js
+// v57 hover-effects.js
 let monitorTerminalState;
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -119,7 +119,6 @@ document.addEventListener("DOMContentLoaded", function () {
     throttledHoverEventHandler = throttle(hoverEventHandler, throttleLimit);
     document.addEventListener("mousemove", throttledHoverEventHandler);
   }
-
   function processQueue() {
     if (!hoverEffectActive || isHovering || hoveredLinksQueue.length === 0) {
       return;
@@ -143,9 +142,13 @@ document.addEventListener("DOMContentLoaded", function () {
       const imageElement = imageElements[className];
       if (imageElement) {
         if (index === linkIndex) {
+          // Fade in the new image immediately
           imageElement.style.opacity = 1;
         } else {
-          imageElement.style.opacity = 0;
+          // Fade out the old image with a slight delay
+          setTimeout(() => {
+            imageElement.style.opacity = 0;
+          }, 50); // Adjust the delay (50ms) as needed
         }
       }
     });
