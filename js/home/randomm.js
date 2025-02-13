@@ -1,4 +1,4 @@
-// v21 js/random.js
+// v22 js/random.js
 
 // Initialize global terminalActive variable
 if (typeof window.terminalActive === "undefined") {
@@ -110,11 +110,11 @@ function handleCommand(command) {
     appendOutputWithTyping(`Unknown command: ${command}`, null);
   }
 }
+
+// Function to calculate uptime
 // Function to calculate uptime
 function getUptime() {
-  const startTime = new Date();
-  startTime.setDate(startTime.getDate() - 1); // Subtract one day
-  startTime.setHours(15, 0, 0, 0); // Set to 3 PM
+  const startTime = new Date("2025-02-10T15:00:00+01:00");
 
   const now = new Date();
   const difference = now.getTime() - startTime.getTime();
@@ -128,13 +128,13 @@ function getUptime() {
 }
 
 const commands = {
-  whois:
-    "Josh Kern:\n– Amateur photographer\n– Professional dogwalker\nType any of the words above to find out more.",
   inspect: () => {
     const uptime = getUptime();
     const inspectText = `– Url: www.kernjosh.com\n– Version: 1.1\n- Uptime: ${uptime}\n- Framework: HTML, CSS, JavaScript, GSAP, Three.js`;
     appendOutputWithTyping(inspectText, null);
   },
+  whois:
+    "Josh Kern:\n– Amateur photographer\n– Professional dogwalker\nType any of the words above to find out more.",
 
   copyright:
     "Copyrights are for little boy businessmen. Share it. Copy it. Paste it. Cut it. Destroy it. Remake it… and credit me.\n– Gravestones/Church Signs by Moose Lane. 2016ish & No Apology #1 by Heidi. Early 1990s",
