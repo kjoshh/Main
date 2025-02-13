@@ -112,7 +112,7 @@ function handleCommand(command) {
 }
 // Function to calculate uptime
 function getUptime() {
-  const startTime = new Date("2025-02-10T15:00:00+01:00");
+  const startTime = new Date("2025-02-09T15:00:00+01:00");
   const now = new Date();
 
   let difference = now.getTime() - startTime.getTime();
@@ -132,7 +132,7 @@ function getUptime() {
 const commands = {
   inspect: () => {
     const uptime = getUptime();
-    const inspectText = `– Url: www.kernjosh.com\n– Version: 1.1\n- Uptime: ${uptime}\n- Framework: HTML, CSS, JavaScript, GSAP, ScrollTrigger, MotionPath, Three.js`;
+    const inspectText = `– Url: www.kernjosh.com\n– Version: 1.3\n- Uptime: ${uptime}\n- Framework: HTML, CSS, JavaScript, GSAP, ScrollTrigger, MotionPath, Three.js`;
     appendOutputWithTyping(inspectText, null);
   },
   whois:
