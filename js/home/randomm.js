@@ -1,4 +1,4 @@
-// v22 js/random.js
+// v29 js/random.js
 
 // Initialize global terminalActive variable
 if (typeof window.terminalActive === "undefined") {
@@ -110,14 +110,16 @@ function handleCommand(command) {
     appendOutputWithTyping(`Unknown command: ${command}`, null);
   }
 }
-
-// Function to calculate uptime
 // Function to calculate uptime
 function getUptime() {
   const startTime = new Date("2025-02-10T15:00:00+01:00");
-
   const now = new Date();
-  const difference = now.getTime() - startTime.getTime();
+
+  let difference = now.getTime() - startTime.getTime();
+
+  if (difference < 0) {
+    return "Not yet started"; // Or handle the case as needed
+  }
 
   const days = Math.floor(difference / (1000 * 60 * 60 * 24));
   const hours = Math.floor(
