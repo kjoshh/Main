@@ -125,10 +125,8 @@ function getUptime() {
   const hours = Math.floor(
     (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
   );
-  const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((difference % (1000 * 60)) / 1000);
 
-  return `${days} Days, ${hours} Hours, ${minutes} Minutes, ${seconds} Seconds`;
+  return `${days} Days, ${hours} Hours`;
 }
 
 const commands = {
