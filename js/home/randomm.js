@@ -132,7 +132,7 @@ function getUptime() {
 const commands = {
   inspect: () => {
     const uptime = getUptime();
-    const inspectText = `– Url: www.kernjosh.com\n– Version: 1.1\n- Uptime: ${uptime}\n- Framework: HTML, CSS, JavaScript, GSAP, Three.js`;
+    const inspectText = `– Url: www.kernjosh.com\n– Version: 1.1\n- Uptime: ${uptime}\n- Framework: HTML, CSS, JavaScript, GSAP, ScrollTrigger, MotionPath, Three.js`;
     appendOutputWithTyping(inspectText, null);
   },
   whois:
