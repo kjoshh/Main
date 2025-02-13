@@ -4,8 +4,8 @@ document.addEventListener("DOMContentLoaded", function () {
   elements.forEach((element) => {
     element.addEventListener("click", function () {
       gsap.to(element, {
-        scale: 0.96,
-        duration: 0.1,
+        scale: 0.95,
+        duration: 0.15,
         yoyo: true,
         repeat: 1,
       });
