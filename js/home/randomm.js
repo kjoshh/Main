@@ -1,4 +1,4 @@
-// v29 js/random.js
+// v30 js/random.js
 
 // Initialize global terminalActive variable
 if (typeof window.terminalActive === "undefined") {
@@ -125,8 +125,10 @@ function getUptime() {
   const hours = Math.floor(
     (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
   );
+  const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((difference % (1000 * 60)) / 1000);
 
-  return `${days} Days, ${hours} Hours`;
+  return `${days} Days, ${hours} Hours, ${minutes} Minutes, ${seconds} Seconds`;
 }
 
 const commands = {
