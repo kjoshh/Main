@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const elements = document.querySelectorAll("[data-click-effect]"); // Select all elements with the data attribute
+  const elements = document.querySelectorAll("[data-click-effect]");
 
   elements.forEach((element) => {
     element.addEventListener("click", function () {

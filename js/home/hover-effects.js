@@ -119,6 +119,47 @@ document.addEventListener("DOMContentLoaded", function () {
     throttledHoverEventHandler = throttle(hoverEventHandler, throttleLimit);
     document.addEventListener("mousemove", throttledHoverEventHandler);
   }
+
+  // function processQueue() {
+  //   if (!hoverEffectActive || isHovering || hoveredLinksQueue.length === 0) {
+  //     return;
+  //   }
+
+  //   isHovering = true;
+  //   const link = hoveredLinksQueue.shift();
+
+  //   // Dispatch mouseover and mouseout events
+  //   link.dispatchEvent(new MouseEvent("mouseover", { bubbles: true }));
+
+  //   // Position the background image
+  //   const linkIndex = Array.from(links).indexOf(link); // Find the index of the link
+  //   if (linkIndex !== -1 && linkIndex < linkOffsets.length) {
+  //     const offsetY = linkOffsets[linkIndex];
+  //     backgroundImage.style.transform = `translateY(${offsetY}px)`; // Move the background image
+  //   }
+
+  //   // Update image opacities
+  //   imageClasses.forEach((className, index) => {
+  //     const imageElement = imageElements[className];
+  //     if (imageElement) {
+  //       if (index === linkIndex) {
+  //         // Fade in the new image immediately
+  //         imageElement.style.opacity = 1;
+  //       } else {
+  //         // Fade out the old image with a slight delay
+  //         setTimeout(() => {
+  //           imageElement.style.opacity = 0;
+  //         }, 50); // Adjust the delay (50ms) as needed
+  //       }
+  //     }
+  //   });
+
+  //   setTimeout(() => {
+  //     link.dispatchEvent(new MouseEvent("mouseout", { bubbles: true }));
+  //     isHovering = false;
+  //     processQueue();
+  //   }, 80);
+  // }
   function processQueue() {
     if (!hoverEffectActive || isHovering || hoveredLinksQueue.length === 0) {
       return;
@@ -140,14 +181,24 @@ document.addEventListener("DOMContentLoaded", function () {
     // Update image opacities
     imageClasses.forEach((className, index) => {
       const imageElement = imageElements[className];
+      const glitchLayerElements = document.querySelectorAll(
+        `.imgbghome.${className}.glitch-layer`
+      ); // Select all glitch layers for this image
+
       if (imageElement) {
         if (index === linkIndex) {
           // Fade in the new image immediately
           imageElement.style.opacity = 1;
+          glitchLayerElements.forEach((layer) => {
+            layer.style.opacity = 1; // Also fade in glitch layers
+          });
         } else {
           // Fade out the old image with a slight delay
           setTimeout(() => {
             imageElement.style.opacity = 0;
+            glitchLayerElements.forEach((layer) => {
+              layer.style.opacity = 0; // Also fade out glitch layers
+            });
           }, 50); // Adjust the delay (50ms) as needed
         }
       }
