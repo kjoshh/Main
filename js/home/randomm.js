@@ -132,7 +132,7 @@ function getUptime() {
 const commands = {
   inspect: () => {
     const uptime = getUptime();
-    const inspectText = `– Url: www.kernjosh.com\n– Version: 1.3\n- Uptime: ${uptime}\n- Framework: HTML, CSS, JavaScript, GSAP, ScrollTrigger, MotionPath, Three.js`;
+    const inspectText = `– Url: www.kernjosh.com\n– Version: 1.5\n- Uptime: ${uptime}\n- Framework: HTML, CSS, JavaScript, GSAP, Three.js`;
     appendOutputWithTyping(inspectText, null);
   },
   whois:
@@ -168,7 +168,7 @@ const commands = {
   desktop: () => {
     appendOutputWithTyping(`...`);
     setTimeout(() => {
-      window.location = "https://how-to-leave-town.webflow.io/desktop";
+      window.location = "https://kernjosh.com/desktop";
     }, 1000);
   },
 
@@ -248,7 +248,7 @@ function initializeTerminalScript() {
 
   appendOutputWithTyping(banner, () => {
     const initialMessage =
-      "\nLast login by kernjosh.com: 10th Feb 2025, 14:53 CET\n\n**********************************************************\n*****  Type 'help' for a list of available commands  *****\n*****  Type 'exit' to return to the previous screen  *****\n**********************************************************\n\n";
+      "\nLast login by kernjosh.com: 16th Feb 2025, 10:11 CET\n\n**********************************************************\n*****  Type 'help' for a list of available commands  *****\n*****  Type 'exit' to return to the previous screen  *****\n**********************************************************\n\n";
     appendOutputWithTyping(initialMessage, () => {
       inputField.focus(); // Focus the input field
       updateCursorPosition();
